@@ -1,0 +1,11 @@
+<form autocomplete="off">
+  <div>
+    <label for="employeeEmail">Email:</label>
+    <input [(ngModel)]="employeeEmail" type="email" id="employeeEmail" name="employeeEmail" autocomplete="off">
+  </div>
+  <div>
+    <label for="employeePassword">Senha:</label>
+    <input [(ngModel)]="employeePassword" type="password" id="employeePassword" name="employeePassword" autocomplete="off">
+  </div>
+  <button type="button" (click)="onLogin()">Login</button>
+</form>
