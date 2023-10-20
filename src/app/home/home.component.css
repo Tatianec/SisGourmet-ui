@@ -1,0 +1,26 @@
+.custom-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.custom-menu li {
+  margin-bottom: 10px;
+}
+
+.custom-menu a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.custom-menu a:hover {
+  color: #007bff;
+}
+
+.menu-item {
+  font-size: 28px;
+}
+
+.menu-icon {
+  font-size: 28px;
+}

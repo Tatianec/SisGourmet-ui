@@ -1,0 +1,28 @@
+<div class="center-card">
+  <p-sidebar [(visible)]="sidebarVisible">
+    <h3>Menu</h3>
+    <ul class="custom-menu">
+      <li>
+        <a routerLink="/tela-inicial" class="menu-item">
+          <i class="pi pi-home menu-icon"></i> Tela Inicial
+        </a>
+      </li>
+      <li>
+        <a routerLink="/pedidos" class="menu-item">
+          <i class="pi pi-shopping-cart menu-icon"></i> Pedidos
+        </a>
+      </li>
+      <li>
+        <a routerLink="/produtos" class="menu-item">
+          <i class="pi pi-box menu-icon"></i> Produtos
+        </a>
+      </li>
+      <li>
+        <a routerLink="/relatorios" class="menu-item">
+          <i class="pi pi-chart-bar menu-icon"></i> Relatórios
+        </a>
+      </li>
+    </ul>
+  </p-sidebar>
+  <p-button (click)="sidebarVisible = true" icon="pi pi-arrow-right"></p-button>
+</div>

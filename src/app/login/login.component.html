@@ -1,11 +1,16 @@
-<form autocomplete="off">
-  <div>
-    <label for="employeeEmail">Email:</label>
-    <input [(ngModel)]="employeeEmail" type="email" id="employeeEmail" name="employeeEmail" autocomplete="off">
-  </div>
-  <div>
-    <label for="employeePassword">Senha:</label>
-    <input [(ngModel)]="employeePassword" type="password" id="employeePassword" name="employeePassword" autocomplete="off">
-  </div>
-  <button type="button" (click)="onLogin()">Login</button>
-</form>
+<div class="center-card">
+  <p-card header="Login" class="p-card">
+    <form [formGroup]="loginForm" autocomplete="off">
+      <div class="p-field">
+        <label for="email" class="custom-label">Email:</label>
+        <input formControlName="email" type="email" id="email" name="email" autocomplete="off" class="custom-input">
+      </div>
+      <div class="p-field">
+        <label for="password" class="custom-label">Senha:</label>
+        <input formControlName="password" type="password" id="password" name="password" autocomplete="off" class="custom-input">
+      </div>
+      <p-messages [value]="msgs"></p-messages>
+      <button pButton type="button" (click)="onLogin()" label="Login" class="p-button" [disabled]="loginForm.invalid"></button>
+    </form>
+  </p-card>
+</div>
