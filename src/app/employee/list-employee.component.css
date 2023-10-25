@@ -1,0 +1,36 @@
+.table-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.table-container p-table p-button {
+  margin-left: 40px; /* Adicione o espaçamento horizontal desejado entre os botões */
+}
+
+h2 {
+  margin-bottom: 20px; /* Espaço entre o título e a tabela */
+}
+
+p-table {
+  width: 100%;
+  max-width: 50rem;
+  border-collapse: collapse;
+}
+
+p-table th, p-table td {
+  border: 1px solid #bdbdbd; /* Cor da borda azul */
+  padding: 8px;
+  text-align: left;
+}
+
+p-table tr {
+  background-color: #ffffff; /* Fundo branco */
+}
+
+p-table th {
+  background-color: #2d76c4; /* Fundo azul para cabeçalho */
+  color: white;
+}

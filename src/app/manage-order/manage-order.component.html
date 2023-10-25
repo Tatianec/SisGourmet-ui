@@ -1,0 +1,31 @@
+<app-menu></app-menu>
+
+<div class="container">
+  <h2>Adicionar Pedido</h2>
+  <form (ngSubmit)="onSubmit()" #pedidoForm="ngForm">
+    <div class="form-group">
+      <label for="orderDate">Data do Pedido:</label>
+      <input type="date" id="orderDate" name="date" [(ngModel)]="pedido.date" required>
+    </div>
+    <div class="form-group">
+      <label for="employeeId">ID do Funcionário:</label>
+      <input type="number" id="employeeId" name="employee_id" [(ngModel)]="pedido.employee_id" required>
+    </div>
+    <div class="form-group">
+      <label for="desk_id">Mesa:</label>
+      <select id="desk_id" name="desk_id" [(ngModel)]="pedido.desk_id" required>
+        <option *ngFor="let mesa of mesas" [value]="mesa.id">{{ mesa.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="total">Total:</label>
+      <input type="number" id="total" name="total" [(ngModel)]="pedido.total" required>
+    </div>
+    <div class="form-group">
+      <label for="observation">Observação:</label><br>
+      <textarea id="observation" name="observation" [(ngModel)]="pedido.observation"></textarea>
+    </div><br>
+    <button type="submit" [disabled]="!pedidoForm.valid">Enviar Pedido</button>
+  </form>
+</div>

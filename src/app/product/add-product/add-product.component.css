@@ -1,7 +1,8 @@
 .container {
   width: 100%;
-  max-width: 400px;
-  margin: 200px auto 0;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-top: 1vh;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -12,39 +13,33 @@
   justify-content: center;
   max-height: 80vh;
   overflow-y: auto;
+  background-color: #1c3f73; /* Fundo azul escuro */
 }
-
-.center-card {
-  margin: 0 auto;  /* Define as margens horizontalmente para centralizar o elemento */
-  position: absolute; /* Define a posição como absoluta */
-  top: 50%; /* Alinha o topo do elemento ao centro da tela */
-  left: 50%; /* Alinha a esquerda do elemento ao centro da tela */
-  transform: translate(-50%, -50%); /* Move o elemento para o centro */
-}
-
 
 h2 {
   text-align: center;
   font-size: 24px;
   margin-bottom: 20px;
-  color: #333;
+  color: #fff; /* Cor do texto branco */
 }
 
 form {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
   width: 100%;
-  max-width: 300px; /* Largura máxima do formulário */
+  max-width: 600px;
 }
 
 .p-field {
   margin-bottom: 20px;
+  flex-basis: calc(33.33% - 10px);
 }
 
 label {
   font-weight: bold;
   margin-bottom: 5px;
-  color: #333;
+  color: #fff; /* Cor do texto branco */
 }
 
 input, button {
@@ -52,6 +47,8 @@ input, button {
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
+  background-color: #fff; /* Fundo branco para campos de entrada e botões */
+  color: #333; /* Cor do texto escuro */
 }
 
 button {

@@ -1,0 +1,14 @@
+<div class="container">
+  <h2>Cadastro de Mesa</h2>
+  <form [formGroup]="deskForm" (ngSubmit)="cadastrarMesa()">
+    <div class="p-field">
+      <label for="capacity">Capacidade</label>
+      <input type="number" id="capacity" name="capacity" formControlName="capacity" pInputText required>
+    </div>
+    <div class="p-field">
+        <p-checkbox formControlName="available" value="available" inputId="available"></p-checkbox>
+        <label for="available">  Disponível</label>
+    </div>
+    <button type="submit" pButton label="Cadastrar"></button>
+  </form>
+</div>

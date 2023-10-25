@@ -1,0 +1,32 @@
+<app-menu></app-menu>
+<app-add-desk></app-add-desk>
+<div class="table-container">
+  <h2>Controle de Mesas</h2>
+  <p-table [value]="desks" [rows]="10">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Número da Mesa</th>
+        <th>Capacidade</th>
+        <th>Disponibilidade</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-desk>
+      <tr>
+        <td>{{ desk.id }}</td>
+        <td>{{ desk.capacity }}</td>
+        <td [ngStyle]="{'color': desk.available ? 'green' : 'red'}">
+          {{ desk.available ? 'Disponível' : 'Ocupada' }}
+        </td>
+        <td>
+          <p-button (click)="editDesk(desk)">
+            <i class="pi pi-pencil"></i>
+          </p-button>
+          <p-button (click)="deleteDesk(desk)">
+            <i class="pi pi-trash"></i>
+          </p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

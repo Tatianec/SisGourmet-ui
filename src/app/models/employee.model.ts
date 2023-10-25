@@ -1,6 +1,7 @@
 export interface Employee {
-    id: number;
-    email: string;
-    password: string;
-  }
-  
+  id?: number;
+  name: string;
+  manager: number;
+  email: string;
+  password: string;
+}

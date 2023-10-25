@@ -1,26 +1,15 @@
-.custom-menu {
-  list-style: none;
-  padding: 0;
+.logo-container {
+  text-align: center;
+  margin-top: 20vh;
+  transition: transform 0.3s ease; /* Adiciona uma transição de animação */
+
+  &:hover {
+    transform: scale(1.2); /* Aumenta o tamanho em hover */
+  }
 }
 
-.custom-menu li {
-  margin-bottom: 10px;
-}
-
-.custom-menu a {
-  text-decoration: none;
-  color: #333;
-  font-weight: bold;
-}
-
-.custom-menu a:hover {
+.logo-text {
+  font-size: 48px; /* Tamanho de fonte maior */
   color: #007bff;
-}
-
-.menu-item {
-  font-size: 28px;
-}
-
-.menu-icon {
-  font-size: 28px;
+  font-weight: bold;
 }

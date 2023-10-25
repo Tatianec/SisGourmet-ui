@@ -1,0 +1,23 @@
+<app-menu></app-menu>
+<app-add-product></app-add-product>
+<div class="table-container">
+  <h2>Controle de Produtos</h2>
+  <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Total</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+      <tr>
+        <td>{{ product.id }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.description }}</td>
+        <td>{{ product.total }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

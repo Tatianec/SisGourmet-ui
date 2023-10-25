@@ -1,16 +1,23 @@
-<div class="center-card">
-  <p-card header="Login" class="p-card">
-    <form [formGroup]="loginForm" autocomplete="off">
-      <div class="p-field">
-        <label for="email" class="custom-label">Email:</label>
-        <input formControlName="email" type="email" id="email" name="email" autocomplete="off" class="custom-input">
-      </div>
-      <div class="p-field">
-        <label for="password" class="custom-label">Senha:</label>
-        <input formControlName="password" type="password" id="password" name="password" autocomplete="off" class="custom-input">
-      </div>
-      <p-messages [value]="msgs"></p-messages>
-      <button pButton type="button" (click)="onLogin()" label="Login" class="p-button" [disabled]="loginForm.invalid"></button>
-    </form>
-  </p-card>
-</div>
+<p-card header="Login" [style]="{ width: '360px' }" class="center-card">
+
+  <form [formGroup]="loginForm" autocomplete="off">
+    <div class="p-field">
+      <label for="email" class="custom-label">Email:</label>
+      <input formControlName="email" type="email" id="email" name="email" autocomplete="off" class="custom-input">
+    </div>
+    <div class="p-field">
+      <label for="password" class="custom-label">Senha:</label>
+      <input formControlName="password" type="password" id="password" name="password" autocomplete="off"
+        class="custom-input">
+    </div><br>
+    <p-messages [value]="msgs"></p-messages>
+    <button pButton type="button" (click)="onLogin()" label="Login" class="p-button"
+      [disabled]="loginForm.invalid"></button>
+    <hr>
+  </form>
+  <hr>
+  <br>
+  <p>
+    Não tem uma conta? <a [routerLink]="['/employee']">Registrar Usuário</a>
+  </p>
+</p-card>
