@@ -7,7 +7,7 @@ import { Employee } from '../models/employee.model';
   providedIn: 'root',
 })
 export class EmployeeService {
-  private employeeAdicionadoSubject = new Subject<void>();
+  private employeeChangeSubject = new Subject<void>();
   private apiUrl = 'http://localhost:8080/employees';
 
   constructor(private http: HttpClient) {}
@@ -19,37 +19,29 @@ export class EmployeeService {
     });
   }
 
-  listarFuncionarios(): Observable<Employee[]> {
+  getEmployees(): Observable<Employee[]> {
     return this.http.get<Employee[]>(this.apiUrl);
   }
 
-  criarFuncionario(employeeData: Employee): Observable<Employee> {
+  createEmployee(employeeData: Employee): Observable<Employee> {
     return this.http.post<Employee>(this.apiUrl, employeeData).pipe(
-      tap(() => {
-        this.employeeAdicionadoSubject.next();
-      })
+      tap(() => this.employeeChangeSubject.next())
     );
   }
 
-  excluirFuncionario(id: number): Observable<void> {
-    const deleteUrl = `${this.apiUrl}/${id}`;
-    return this.http.delete<void>(deleteUrl).pipe(
-      tap(() => {
-        this.employeeAdicionadoSubject.next();
-      })
+  deleteEmployee(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => this.employeeChangeSubject.next())
     );
   }
 
-  atualizarFuncionario(id: number, employeeData: Employee): Observable<void> {
-    const updateUrl = `${this.apiUrl}/${id}`;
-    return this.http.put<void>(updateUrl, employeeData).pipe(
-      tap(() => {
-        this.employeeAdicionadoSubject.next();
-      })
+  updateEmployee(id: number, employeeData: Employee): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, employeeData).pipe(
+      tap(() => this.employeeChangeSubject.next())
     );
   }
 
-  onFuncionarioAdicionado(): Observable<void> {
-    return this.employeeAdicionadoSubject.asObservable();
+  onEmployeeChange(): Observable<void> {
+    return this.employeeChangeSubject.asObservable();
   }
 }

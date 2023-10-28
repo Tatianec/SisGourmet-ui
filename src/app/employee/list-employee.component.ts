@@ -17,13 +17,13 @@ export class ListEmployeeComponent implements OnInit{
   ngOnInit(): void {
     this.atualizarFuncionarios();
 
-    this.employeeService.onFuncionarioAdicionado().subscribe(() => {
+    this.employeeService.onEmployeeChange().subscribe(() => {
       this.atualizarFuncionarios();
     });
   }
 
   private atualizarFuncionarios() {
-    this.employeeService.listarFuncionarios().subscribe((employee) => {
+    this.employeeService.getEmployees().subscribe((employee) => {
       this.employees = employee;
     });
   }
@@ -31,7 +31,7 @@ export class ListEmployeeComponent implements OnInit{
   deleteEmployee(employee: Employee) {
     if (confirm('Tem certeza que deseja excluir esta mesa?')) {
       if (employee.id !== undefined) {
-        this.employeeService.excluirFuncionario(employee.id).subscribe(
+        this.employeeService.deleteEmployee(employee.id).subscribe(
           () => {
             console.log('Mesa excluída com sucesso.');
             // Atualize a lista de mesas após a exclusão

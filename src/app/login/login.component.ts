@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { EmployeeService } from '../services/employee.service';
+import { AuthService } from '../services/auth.service'; // Importe o AuthService
 import { Message } from 'primeng/api';
 
 @Component({
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
+    private authService: AuthService, 
     private router: Router,
     private msgService: MessageService
   ) {}
@@ -45,8 +47,9 @@ export class LoginComponent implements OnInit {
   }
 
   private handleLoginResponse(response: any) {
+    console.log(response);
     if (response && response.success) {
-      alert('Login bem-sucedido!');
+      this.authService.setLoggedInUserId(response.id); 
       this.router.navigate(['/home']);
     } else {
       this.msgs = [];
@@ -63,7 +66,7 @@ export class LoginComponent implements OnInit {
     this.msgs.push({
       severity: 'error',
       summary: 'Erro',
-      detail: 'Email ou senha incorretos',
+      detail: 'Ocorreu um erro durante a tentativa de login. Por favor, tente novamente.',
     });
   }
 }

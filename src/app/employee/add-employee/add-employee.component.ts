@@ -30,7 +30,7 @@ export class EmployeeRegisterComponent implements OnInit {
       // Converter o valor do campo "Gerente" para 0 ou 1
       employeeData.manager = employeeData.manager ? 1 : 0;
 
-      this.employeeService.criarFuncionario(employeeData).subscribe(
+      this.employeeService.createEmployee(employeeData).subscribe(
         () => {
           console.log('Funcionário criado com sucesso.');
           this.employeeForm.reset();

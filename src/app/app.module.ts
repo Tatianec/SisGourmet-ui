@@ -29,7 +29,8 @@ import { ListEmployeeComponent } from './employee/list-employee.component';
 import { MenuComponent } from './menu/menu.component';
 import { AddProductComponent } from './product/add-product/add-product.component';
 import { ListProductComponent } from './product/list-product.component';
-import { ManageOrderComponent } from './manage-order/manage-order.component';
+import { ListaPedidosComponent } from './pedido/lista-pedidos/lista-pedidos.component';
+import { AddPedidoComponent } from './pedido/add-pedido/add-pedido.component';
 
 @NgModule({
   declarations: [
@@ -39,13 +40,14 @@ import { ManageOrderComponent } from './manage-order/manage-order.component';
     EmployeeRegisterComponent,
     EmployeeRegisterComponent,
     AddProductComponent,
-    ManageOrderComponent,
     MenuComponent,
     AddDeskComponent,
     ListDeskComponent,
     ListEmployeeComponent,
     AddDeskComponent,
     ListProductComponent,
+    ListaPedidosComponent,
+    AddPedidoComponent
   ],
   imports: [
     BrowserModule,

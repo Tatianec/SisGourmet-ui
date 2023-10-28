@@ -1,0 +1,33 @@
+<app-menu></app-menu>
+<app-add-pedido (pedidoAdded)="onPedidoAdded()"></app-add-pedido>
+
+<div class="table-container">
+  <h2>Controle de Pedidos</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Data</th>
+        <th>Funcionário</th>
+        <th>Mesa</th>
+        <th>Total</th>
+        <th>Observações</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pedido of pedidos">
+        <td>{{ pedido.id }}</td>
+        <td>{{ pedido.date }}</td>
+        <td>{{ pedido.employee_id }}</td> 
+        <td>{{ pedido.desk_id }}</td>
+        <td>{{ pedido.total }}</td>
+        <td>{{ pedido.observation }}</td>
+        <td>
+          <button>Edit</button>
+          <button>Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

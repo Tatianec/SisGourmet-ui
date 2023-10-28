@@ -15,7 +15,7 @@ export class ListDeskComponent implements OnInit {
   ngOnInit(): void {
     this.atualizarDesks();
 
-    this.deskService.onMesaAdicionada().subscribe(() => {
+    this.deskService.onDeskChange().subscribe(() => {
       this.atualizarDesks();
     });
   }
@@ -34,13 +34,13 @@ export class ListDeskComponent implements OnInit {
   deleteDesk(desk: Desk) {
     if (confirm('Tem certeza que deseja excluir esta mesa?')) {
       if (desk.id !== undefined) {
-        this.deskService.deleteMesa(desk.id).subscribe(
+        this.deskService.deleteDesk(desk.id).subscribe(
           () => {
             console.log('Mesa excluída com sucesso.');
             // Atualize a lista de mesas após a exclusão
             this.atualizarDesks();
           },
-          (error) => {
+          (error: any) => {
             console.error('Erro ao excluir a mesa:', error);
           }
         );

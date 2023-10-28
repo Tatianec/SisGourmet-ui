@@ -1,0 +1,53 @@
+<div class="container">
+  <h2>Cadastro de Pedido</h2>
+
+  <form [formGroup]="pedidoForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Data -->
+    <div class="p-field">
+      <label for="date">Data:</label>
+      <input type="date" id="date" formControlName="date">
+    </div>
+
+    <!-- Funcionário -->
+    <div class="p-field">
+      <label for="employee">Funcionário:</label>
+      <select id="employee" formControlName="employee_id">
+        <option *ngFor="let employee of employees" [value]="employee.id">{{ employee.name }}</option>
+      </select>
+    </div>
+
+    <!-- Mesa -->
+    <div class="p-field">
+      <label for="desk">Mesa:</label>
+      <select id="desk" formControlName="desk_id">
+        <option *ngFor="let desk of desks" [value]="desk.id">Mesa {{ desk.id }}</option>
+      </select>
+    </div>
+
+    <!-- Produtos e Quantidades -->
+    <div formArrayName="selectedProducts">
+      <div *ngFor="let ctrlGroup of selectedProducts.controls; let i = index" [formGroupName]="i">
+        <select formControlName="productId">
+              <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+          </select>
+          <input type="number" placeholder="Quantidade" formControlName="quantity">
+      </div>
+    </div>
+
+    <!-- Total -->
+    <div class="p-field">
+      <label for="total">Total:</label>
+      <input type="number" id="total" formControlName="total">
+    </div>
+
+    <!-- Observação -->
+    <div class="p-field">
+      <label for="observation">Observações:</label>
+      <textarea id="observation" formControlName="observation"></textarea>
+    </div>
+
+    <button type="submit">Adicionar Pedido</button>
+
+  </form>
+</div>

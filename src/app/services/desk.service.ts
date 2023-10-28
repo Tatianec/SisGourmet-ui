@@ -1,4 +1,3 @@
-// desk.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject, tap } from 'rxjs';
@@ -9,8 +8,7 @@ import { Desk } from '../models/desk.model';
 })
 export class DeskService {
   private apiUrl = 'http://localhost:8080/desk';
-
-  private mesaAdicionadaSubject = new Subject<void>();
+  private deskChangeSubject = new Subject<void>();
 
   constructor(private http: HttpClient) {}
 
@@ -18,36 +16,25 @@ export class DeskService {
     return this.http.get<Desk[]>(this.apiUrl);
   }
 
-  cadastrarMesa(mesaData: Desk): Observable<Desk> {
-    return this.http.post<Desk>(this.apiUrl, mesaData).pipe(
-      tap(() => {
-        this.mesaAdicionadaSubject.next();
-      })
+  createDesk(deskData: Desk): Observable<Desk> {
+    return this.http.post<Desk>(this.apiUrl, deskData).pipe(
+      tap(() => this.deskChangeSubject.next())
     );
   }
 
-  onMesaAdicionada(): Observable<void> {
-    return this.mesaAdicionadaSubject.asObservable();
+  onDeskChange(): Observable<void> {
+    return this.deskChangeSubject.asObservable();
   }
 
-  // Corrija o tipo de retorno para Observable<void>
-  deleteMesa(id: number): Observable<void> {
-    const deleteUrl = `${this.apiUrl}/${id}`;
-    return this.http.delete<void>(deleteUrl).pipe(
-      tap(() => {
-        this.mesaAdicionadaSubject.next();
-      })
+  deleteDesk(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => this.deskChangeSubject.next())
     );
   }
 
-
-  // Corrija o tipo de retorno para Observable<void>
-  updateMesa(id: number, mesaData: Desk): Observable<void> {
-    const updateUrl = `${this.apiUrl}/${id}`;
-    return this.http.put<void>(updateUrl, mesaData).pipe(
-      tap(() => {
-        this.mesaAdicionadaSubject.next();
-      })
+  updateDesk(id: number, deskData: Desk): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${id}`, deskData).pipe(
+      tap(() => this.deskChangeSubject.next())
     );
   }
 }

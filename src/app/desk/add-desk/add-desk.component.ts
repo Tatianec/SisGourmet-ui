@@ -27,12 +27,12 @@ export class AddDeskComponent implements OnInit {
       mesaData.available = mesaData.available ? 1 : 0;
 
       // Enviar os dados para o serviço para salvar no servidor
-      this.deskService.cadastrarMesa(mesaData).subscribe(
-        (response) => {
+      this.deskService.createDesk(mesaData).subscribe(
+        (response: any) => {
           console.log('Mesa cadastrada com sucesso.', response);
           this.deskForm.reset();
         },
-        (error) => {
+        (error: any) => {
           console.error('Erro ao cadastrar a mesa:', error);
         }
       );
