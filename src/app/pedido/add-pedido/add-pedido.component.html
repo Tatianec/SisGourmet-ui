@@ -2,7 +2,7 @@
   <h2>Cadastro de Pedido</h2>
 
   <form [formGroup]="pedidoForm" (ngSubmit)="onSubmit()">
-    
+
     <!-- Data -->
     <div class="p-field">
       <label for="date">Data:</label>
@@ -26,14 +26,27 @@
     </div>
 
     <!-- Produtos e Quantidades -->
-    <div formArrayName="selectedProducts">
-      <div *ngFor="let ctrlGroup of selectedProducts.controls; let i = index" [formGroupName]="i">
-        <select formControlName="productId">
-              <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
-          </select>
-          <input type="number" placeholder="Quantidade" formControlName="quantity">
+    <div formArrayName="selectedProducts" class="row">
+      <div class="col">
+        <label for="productId">Produto:</label>
+        <select id="productId" formControlName="productId" class="form-control">
+          <option *ngFor="let product of products" [value]="product.id">
+            {{ product.name }}
+          </option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="total">Preço:</label>
+        <p-input-number id="total" placeholder="Total" formControlName="total" class="form-control"></p-input-number>
+      </div>
+      <div class="col">
+        <label for="quantity">Quantidade:</label>
+        <!-- <input type="number" id="quantity" placeholder="Quantidade" formControlName="quantity" class="form-control"> -->
       </div>
     </div>
+
+
+
 
     <!-- Total -->
     <div class="p-field">

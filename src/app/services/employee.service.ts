@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, tap } from 'rxjs';
+import { Observable, Subject, catchError, tap } from 'rxjs';
 import { Employee } from '../models/employee.model';
 
 @Injectable({
@@ -35,9 +35,13 @@ export class EmployeeService {
     );
   }
 
-  updateEmployee(id: number, employeeData: Employee): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}`, employeeData).pipe(
-      tap(() => this.employeeChangeSubject.next())
+
+  updateEmployee(id: number, produtoData: Employee): Observable<void> {
+    const updateUrl = `${this.apiUrl}/${id}`;
+    return this.http.put<void>(updateUrl, produtoData).pipe(
+      tap(() => {
+        this.employeeChangeSubject.next();
+      }),
     );
   }
 

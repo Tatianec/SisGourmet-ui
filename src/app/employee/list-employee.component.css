@@ -34,3 +34,43 @@ p-table th {
   background-color: #2d76c4; /* Fundo azul para cabeçalho */
   color: white;
 }
+
+
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  margin-bottom: 5px;
+}
+
+.form-control {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 150px; /* Ajuste conforme necessário */
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+p-button {
+  margin-left: 20px;
+}

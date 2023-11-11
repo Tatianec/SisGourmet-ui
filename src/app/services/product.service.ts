@@ -54,6 +54,12 @@ export class ProductService {
     );
   }
 
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
+      tap(() => this.produtoAdicionadoSubject.next())
+    );
+  }
+
   // Notifica outros componentes quando um produto é adicionado, atualizado ou excluído
   onProdutoAdicionado(): Observable<void> {
     return this.produtoAdicionadoSubject.asObservable();

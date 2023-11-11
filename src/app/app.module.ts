@@ -31,6 +31,7 @@ import { AddProductComponent } from './product/add-product/add-product.component
 import { ListProductComponent } from './product/list-product.component';
 import { ListaPedidosComponent } from './pedido/lista-pedidos/lista-pedidos.component';
 import { AddPedidoComponent } from './pedido/add-pedido/add-pedido.component';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { AddPedidoComponent } from './pedido/add-pedido/add-pedido.component';
     SidebarModule,
     MenubarModule,
     InputTextModule,
+    InputNumberModule,
     PasswordModule,
     TableModule,
     CheckboxModule,

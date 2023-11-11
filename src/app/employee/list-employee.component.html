@@ -1,8 +1,44 @@
 <app-menu></app-menu>
 <app-add-employee></app-add-employee>
+
+<!-- p-dialog para edição -->
+<p-dialog header="Editar Funcionário" [(visible)]="visible" [style]="{'max-width': '50vw', 'width': 'auto' }">
+  <!-- Conteúdo do p-dialog -->
+  <form class="dialog-form">
+    <div class="form-row">
+      <div class="form-field">
+        <label for="editName">Nome:</label>
+        <input id="editName" type="text" [(ngModel)]="selectedEmployee.name" name="editName" class="form-control">
+      </div>
+
+      <div class="form-field">
+        <label for="editManager">Gerente:</label>
+        <p-checkbox id="editManager" [(ngModel)]="selectedEmployee.manager"></p-checkbox>
+      </div>
+
+    </div>
+
+
+    <div class="form-row">
+      <div class="form-field">
+        <label for="editEmail">E-mail:</label>
+        <input id="editEmail" type="email" [(ngModel)]="selectedEmployee.email" name="editEmail" class="form-control">
+      </div>
+    </div>
+
+    <!-- Botões no rodapé do p-dialog -->
+    <div class="form-actions">
+      <p-button (click)="saveChanges()">Salvar</p-button>
+      <!-- <p-button (click)="cancelEdit()">Cancelar</p-button> -->
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Tabela -->
 <div class="table-container">
   <h2>Controle de Funcionários</h2>
   <p-table [value]="employees" [rows]="10">
+    <!-- Cabeçalho da tabela -->
     <ng-template pTemplate="header">
       <tr>
         <th>Id</th>
@@ -12,6 +48,8 @@
         <th>Ações</th>
       </tr>
     </ng-template>
+
+    <!-- Corpo da tabela -->
     <ng-template pTemplate="body" let-employee>
       <tr>
         <td>{{ employee.id }}</td>
@@ -19,14 +57,16 @@
         <td>{{ employee.manager ? 'Gerente' : '' }}</td>
         <td>{{ employee.email }}</td>
         <td>
-          <!-- <p-button (click)="editDesk(desk)">Editar</p-button> -->
-          <p-button (click)="deleteEmployee(employee)">
-            <i class="pi pi-trash"></i> <!-- Ícone de lixo -->
+          <!-- Botão para abrir o p-dialog -->
+          <p-button (click)="openEditDialog(employee)">
+            <i class="pi pi-pencil"></i>
           </p-button>
 
+          <p-button (click)="deleteEmployee(employee)">
+            <i class="pi pi-trash"></i>
+          </p-button>
         </td>
       </tr>
-
     </ng-template>
   </p-table>
 </div>

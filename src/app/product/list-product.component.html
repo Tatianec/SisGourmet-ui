@@ -2,21 +2,68 @@
 <app-add-product></app-add-product>
 <div class="table-container">
   <h2>Controle de Produtos</h2>
+
+  <!-- p-dialog para edição -->
+  <p-dialog header="Editar Produto" [(visible)]="visible" [style]="{'max-width': '50vw', 'width': 'auto' }">
+    <!-- Conteúdo do p-dialog -->
+    <form class="dialog-form">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="editName">Nome:</label>
+          <input id="editName" type="text" [(ngModel)]="selectedProduct.name" name="editName" class="form-control">
+        </div>
+
+        <div class="form-field">
+          <label for="editDescription">Descrição:</label>
+          <input id="editDescription" type="text" [(ngModel)]="selectedProduct.description" name="editDescription" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="editTotal">Total:</label>
+          <input id="editTotal" type="number" [(ngModel)]="selectedProduct.total" name="editTotal" class="form-control">
+        </div>
+      </div>
+
+      <!-- Botões no rodapé do p-dialog -->
+      <div class="form-actions">
+        <p-button (click)="saveChanges()">Salvar</p-button>
+        <!-- <p-button (click)="cancelEdit()">Cancelar</p-button> -->
+      </div>
+    </form>
+  </p-dialog>
+
+  <!-- Tabela -->
   <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
+    <!-- Cabeçalho da tabela -->
     <ng-template pTemplate="header">
       <tr>
         <th>Id</th>
         <th>Name</th>
         <th>Description</th>
         <th>Total</th>
+        <th>Ações</th>
       </tr>
     </ng-template>
+
+    <!-- Corpo da tabela -->
     <ng-template pTemplate="body" let-product>
       <tr>
         <td>{{ product.id }}</td>
         <td>{{ product.name }}</td>
         <td>{{ product.description }}</td>
         <td>{{ product.total }}</td>
+        <td>
+          <!-- Botão para abrir o p-dialog -->
+          <p-button (click)="openEditDialog(product)">
+            <i class="pi pi-pencil"></i>
+          </p-button>
+
+          <p-button (click)="deleteProduct(product)">
+            <i class="pi pi-trash"></i>
+          </p-button>
+        </td>
       </tr>
     </ng-template>
   </p-table>

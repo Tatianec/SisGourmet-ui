@@ -19,13 +19,15 @@
       <tr *ngFor="let pedido of pedidos">
         <td>{{ pedido.id }}</td>
         <td>{{ pedido.date }}</td>
-        <td>{{ pedido.employee_id }}</td> 
+        <td>{{ pedido.employee_id }}</td>
         <td>{{ pedido.desk_id }}</td>
         <td>{{ pedido.total }}</td>
         <td>{{ pedido.observation }}</td>
         <td>
           <button>Edit</button>
-          <button>Delete</button>
+          <p-button (click)="deletePedido(pedido)">
+            <i class="pi pi-trash"></i> <!-- Ícone de lixo -->
+          </p-button>
         </td>
       </tr>
     </tbody>
