@@ -9,6 +9,12 @@ import { Desk } from '../models/desk.model';
 })
 export class ListDeskComponent implements OnInit {
   desks: Desk[] = [];
+  visible: boolean = false;
+  selectedDesk: Desk = {
+    id: 0,
+    capacity: 0,
+    available: 0,
+  };
 
   constructor(private deskService: DeskService) {}
 
@@ -26,8 +32,32 @@ export class ListDeskComponent implements OnInit {
     });
   }
 
-  editDesk(desk: Desk) {
-    // Implemente a lógica de edição aqui, por exemplo, navegar para a página de edição
+  openEditDialog(desk: Desk): void {
+    this.visible = true;
+    this.selectedDesk = {
+      id: desk.id,
+      capacity: desk.capacity,
+      available: desk.available == 0, // Deve ser 0 ou 1
+    };
+  }
+
+  saveChanges(): void {
+    // Chama o serviço para atualizar o produto
+    this.deskService
+      .updateDesk(this.selectedDesk.id, this.selectedDesk)
+      .subscribe(
+        () => {
+          console.log('Produto atualizado com sucesso.');
+          // Fecha o p-dialog após salvar as alterações
+          this.visible = false;
+          // Atualiza a lista de produtos
+          this.atualizarDesks();
+        },
+        (error: any) => {
+          console.error('Erro ao atualizar o produto:', error);
+          // Adicione a lógica de tratamento de erro, se necessário
+        }
+      );
   }
 
   // Método para excluir uma mesa

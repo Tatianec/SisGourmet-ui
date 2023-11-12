@@ -1,5 +1,5 @@
 export interface Desk {
-  id?: number;
+  id: number;
   capacity: number;
-  available: number;
+  available: any;
 }

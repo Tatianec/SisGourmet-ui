@@ -89,45 +89,35 @@ export class AddPedidoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.pedidoForm.valid) {
-      const productData = this.pedidoForm.get('selectedProducts') as FormArray;
 
-      if (productData && productData.length > 0) {
-        const selectedProducts = (productData.controls as FormGroup[])
-          .map((productGroup) => ({
-            productId: productGroup.controls['productId'].value,
-            quantity: productGroup.controls['quantity'].value,
-          }))
-          .filter(
-            (p: { productId: number; quantity: number }) => p.quantity > 0
-          );
+        if (this.pedidoForm.get('selectedProducts')) {
+            const productData = (this.pedidoForm.get('selectedProducts') as FormArray).value;
+            const selectedProducts = productData
+                .filter((p: { productId: number; quantity: number }) => p.quantity > 0)
+                .map((p: { id_product: number; quantity: number }) => ({ id_product: p.id_product, qtd_sold: p.quantity }));
 
-        if (selectedProducts.length > 0) {
-          const newPedido: Pedido = {
-            ...this.pedidoForm.value,
-            date: this.formatDate(this.pedidoForm.value.date),
-            products: selectedProducts,
-          };
 
-          this.pedidoService.addPedido(newPedido).subscribe(
-            (response) => {
-              console.log('Pedido adicionado com sucesso!', response);
-              this.pedidoAdded.emit();
-              this.pedidoForm.reset();
-              alert('Pedido adicionado com sucesso!');
-            },
-            (error) => {
-              console.error('Erro ao adicionar pedido:', error);
-              alert('Erro ao adicionar pedido. Por favor, tente novamente.');
-            }
-          );
-        } else {
-          alert('Por favor, adicione pelo menos um produto ao pedido.');
+            const newPedido: Pedido = {
+                ...this.pedidoForm.value,
+                date: this.formatDate(this.pedidoForm.value.date),
+                products: selectedProducts
+            };
+
+            this.pedidoService.addPedido(newPedido).subscribe(
+                response => {
+                    console.log('Pedido adicionado com sucesso!', response);
+                    this.pedidoAdded.emit();
+                    this.pedidoForm.reset();
+                    alert('Pedido adicionado com sucesso!');
+                },
+                error => {
+                    console.error('Erro ao adicionar pedido:', error);
+                    alert('Erro ao adicionar pedido. Por favor, tente novamente.');
+                }
+            );
         }
-      } else {
-        alert('Por favor, adicione pelo menos um produto ao pedido.');
-      }
     } else {
-      alert('Por favor, preencha todos os campos do formulário corretamente.');
+        alert('Por favor, preencha todos os campos do formulário corretamente.');
     }
   }
 

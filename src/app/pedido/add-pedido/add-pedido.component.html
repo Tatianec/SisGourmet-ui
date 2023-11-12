@@ -4,30 +4,40 @@
   <form [formGroup]="pedidoForm" (ngSubmit)="onSubmit()">
 
     <!-- Data -->
-    <div class="p-field">
-      <label for="date">Data:</label>
-      <input type="date" id="date" formControlName="date">
-    </div>
+    <div class="form-group" class="row">
+      <div class="col">
+        <label for="date">Data:</label>
+        <input type="date" id="date" formControlName="date" class="form-control">
+      </div>
 
-    <!-- Funcionário -->
-    <div class="p-field">
-      <label for="employee">Funcionário:</label>
-      <select id="employee" formControlName="employee_id">
-        <option *ngFor="let employee of employees" [value]="employee.id">{{ employee.name }}</option>
-      </select>
-    </div>
+      <!-- Funcionário -->
+      <div class="col">
+        <label for="employee">Funcionário:</label>
+        <select id="employee" formControlName="employee_id" class="form-control">
+          <option *ngFor="let employee of employees" [value]="employee.id">{{ employee.name }}</option>
+        </select>
+      </div>
 
-    <!-- Mesa -->
-    <div class="p-field">
-      <label for="desk">Mesa:</label>
-      <select id="desk" formControlName="desk_id">
-        <option *ngFor="let desk of desks" [value]="desk.id">Mesa {{ desk.id }}</option>
-      </select>
+      <!-- Mesa -->
+      <div class="col">
+        <label for="desk">Mesa:</label>
+        <select id="desk" formControlName="desk_id" class="form-control">
+          <option *ngFor="let desk of desks" [value]="desk.id">Mesa {{ desk.id }}</option>
+        </select>
+      </div>
     </div>
-
+    <!-- <div formArrayName="selectedProducts">
+      <div *ngFor="let ctrlGroup of selectedProducts.controls; let i = index" [formGroupName]="i">
+        <select formControlName="productId">
+              <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+          </select>
+          <input type="number" placeholder="Quantidade" formControlName="quantity">
+      </div>
+    </div> -->
     <!-- Produtos e Quantidades -->
     <div formArrayName="selectedProducts" class="row">
       <div class="col">
+        <div *ngFor="let ctrlGroup of selectedProducts.controls; let i = index" [formGroupName]="i">
         <label for="productId">Produto:</label>
         <select id="productId" formControlName="productId" class="form-control">
           <option *ngFor="let product of products" [value]="product.id">
@@ -35,9 +45,10 @@
           </option>
         </select>
       </div>
+      </div>
       <div class="col">
         <label for="total">Preço:</label>
-        <input type="number" id="total" placeholder="Total" formControlName="total" class="form-control">
+        <input type="number" id="total" placeholder="Preço" formControlName="total" class="form-control">
       </div>
       <div class="col">
         <label for="quantity">Quantidade:</label>
@@ -45,20 +56,19 @@
       </div>
     </div>
 
-
     <!-- Total -->
-    <div class="p-field">
+    <div class="form-group">
       <label for="total">Total:</label>
-      <input type="number" id="total" formControlName="total">
+      <input type="number" id="total" formControlName="total" class="form-control">
     </div>
 
     <!-- Observação -->
-    <div class="p-field">
+    <div class="form-group">
       <label for="observation">Observações:</label>
-      <textarea id="observation" formControlName="observation"></textarea>
+      <textarea id="observation" formControlName="observation" class="form-control"></textarea>
     </div>
 
-    <button type="submit">Adicionar Pedido</button>
+    <button type="submit" class="btn btn-primary">Adicionar Pedido</button>
 
   </form>
 </div>

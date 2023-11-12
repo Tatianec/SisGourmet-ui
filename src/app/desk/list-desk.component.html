@@ -2,6 +2,36 @@
 <app-add-desk></app-add-desk>
 <div class="table-container">
   <h2>Controle de Mesas</h2>
+
+  <!-- p-dialog para edição de mesas -->
+  <p-dialog header="Editar Mesa" [(visible)]="visible" [style]="{'max-width': '50vw', 'width': 'auto' }">
+    <!-- Conteúdo do p-dialog -->
+    <form class="dialog-form">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="editDeskId">Número da Mesa:</label>
+          <input id="editDeskId" type="text" [(ngModel)]="selectedDesk.id" name="editDeskId" class="form-control" disabled>
+        </div>
+
+        <div class="form-field">
+          <label for="editCapacity">Capacidade:</label>
+          <input id="editCapacity" type="number" [(ngModel)]="selectedDesk.capacity" name="editCapacity" class="form-control">
+        </div>
+
+        <div class="form-field">
+          <label for="editAvailable">Disponível:</label>
+          <p-checkbox id="editAvailable" [(ngModel)]="selectedDesk.available" name="editAvailable"></p-checkbox>
+        </div>
+      </div>
+
+      <!-- Botões no rodapé do p-dialog -->
+      <div class="form-actions">
+        <p-button (click)="saveChanges()">Salvar</p-button>
+        <!-- <p-button (click)="cancelDeskEdit()">Cancelar</p-button> -->
+      </div>
+    </form>
+  </p-dialog>
+
   <p-table [value]="desks" [rows]="10">
     <ng-template pTemplate="header">
       <tr>
@@ -19,7 +49,7 @@
           {{ desk.available ? 'Disponível' : 'Ocupada' }}
         </td>
         <td>
-          <p-button (click)="editDesk(desk)">
+          <p-button (click)="openEditDialog(desk)">
             <i class="pi pi-pencil"></i>
           </p-button>
           <p-button (click)="deleteDesk(desk)">

@@ -1,33 +1,42 @@
 <app-menu></app-menu>
-<app-add-pedido (pedidoAdded)="onPedidoAdded()"></app-add-pedido>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+      <app-add-pedido (pedidoAdded)="onPedidoAdded()"></app-add-pedido>
+    </div>
+    <div class="col-md-6">
+      <div class="table-container">
+        <h2>Controle de Pedidos</h2>
+        <p-table [value]="pedidos" [rows]="10">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>ID</th>
+              <th>Data</th>
+              <th>Funcionário</th>
+              <th>Mesa</th>
+              <th>Total</th>
+              <th>Observações</th>
+              <th>Ações</th>
+            </tr>
+          </ng-template>
 
-<div class="table-container">
-  <h2>Controle de Pedidos</h2>
-    <p-table [value]="pedidos" [rows]="10">
-      <ng-template pTemplate="header">
-      <tr>
-        <th>ID</th>
-        <th>Data</th>
-        <th>Funcionário</th>
-        <th>Mesa</th>
-        <th>Total</th>
-        <th>Observações</th>
-        <th>Ações</th>
-      </tr>
-
-      <tr *ngFor="let pedido of pedidos">
-        <td>{{ pedido.id }}</td>
-        <td>{{ pedido.date }}</td>
-        <td>{{ pedido.employee_id }}</td>
-        <td>{{ pedido.desk_id }}</td>
-        <td>{{ pedido.total }}</td>
-        <td>{{ pedido.observation }}</td>
-        <td>
-          <p-button (click)="deletePedido(pedido)">
-            <i class="pi pi-trash"></i> <!-- Ícone de lixo -->
-          </p-button>
-        </td>
-      </tr>
-  </ng-template>
-  </p-table>
+          <ng-template pTemplate="body" let-pedido>
+            <tr>
+              <td>{{ pedido.id }}</td>
+              <td>{{ pedido.date }}</td>
+              <td>{{ getEmployeeName(pedido.employee_id) }}</td>
+              <td>{{ pedido.desk_id }}</td>
+              <td>{{ pedido.total }}</td>
+              <td>{{ pedido.observation }}</td>
+              <td>
+                <p-button (click)="deletePedido(pedido)">
+                  <i class="pi pi-trash"></i>
+                </p-button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
 </div>
