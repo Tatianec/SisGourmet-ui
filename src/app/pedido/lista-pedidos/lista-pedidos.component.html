@@ -3,8 +3,8 @@
 
 <div class="table-container">
   <h2>Controle de Pedidos</h2>
-  <table>
-    <thead>
+    <p-table [value]="pedidos" [rows]="10">
+      <ng-template pTemplate="header">
       <tr>
         <th>ID</th>
         <th>Data</th>
@@ -14,8 +14,7 @@
         <th>Observações</th>
         <th>Ações</th>
       </tr>
-    </thead>
-    <tbody>
+
       <tr *ngFor="let pedido of pedidos">
         <td>{{ pedido.id }}</td>
         <td>{{ pedido.date }}</td>
@@ -24,12 +23,11 @@
         <td>{{ pedido.total }}</td>
         <td>{{ pedido.observation }}</td>
         <td>
-          <button>Edit</button>
           <p-button (click)="deletePedido(pedido)">
             <i class="pi pi-trash"></i> <!-- Ícone de lixo -->
           </p-button>
         </td>
       </tr>
-    </tbody>
-  </table>
+  </ng-template>
+  </p-table>
 </div>

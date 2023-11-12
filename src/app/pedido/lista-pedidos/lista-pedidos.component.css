@@ -1,58 +1,3 @@
-.container {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  margin-top: 1vh;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #1c3f73; /* Fundo azul escuro */
-  color: #fff; /* Cor do texto branco para o container */
-}
-
-h2 {
-  margin-bottom: 20px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 600px;
-  margin-bottom: 20px;
-}
-
-label {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-input, select, button {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  width: 100%;
-  margin-bottom: 15px;
-  background-color: #fff; /* Fundo branco para campos de entrada, seletores e botões */
-  color: #333; /* Cor do texto escuro */
-}
-
-button {
-  background-color: #007bff;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
 .table-container {
   display: flex;
   flex-direction: column;
@@ -63,6 +8,10 @@ button:hover {
 
 .table-container p-table p-button {
   margin-left: 40px; /* Adicione o espaçamento horizontal desejado entre os botões */
+}
+
+h2 {
+  margin-bottom: 20px; /* Espaço entre o título e a tabela */
 }
 
 p-table {

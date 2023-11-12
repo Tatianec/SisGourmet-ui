@@ -16,6 +16,13 @@ export class ListaPedidosComponent implements OnInit {
     this.loadPedidos();
   }
 
+  loadProdutos() {
+    this.pedidoService.getPedidos().subscribe(
+      data => this.pedidos = data,
+      error => console.error('Erro ao carregar pedidos:', error)
+    );
+  }
+
   loadPedidos() {
     this.pedidoService.getPedidos().subscribe(
       data => this.pedidos = data,
