@@ -11,10 +11,6 @@
         <input id="editName" type="text" [(ngModel)]="selectedEmployee.name" name="editName" class="form-control">
       </div>
 
-      <div class="form-field">
-        <label for="editManager">Gerente:</label>
-        <p-checkbox id="editManager" [(ngModel)]="selectedEmployee.manager"></p-checkbox>
-      </div>
 
     </div>
 
@@ -25,6 +21,14 @@
         <input id="editEmail" type="email" [(ngModel)]="selectedEmployee.email" name="editEmail" class="form-control">
       </div>
     </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label for="editManager">Gerente</label>
+        <input id="editManager" type="checkbox" [(ngModel)]="selectedEmployee.manager" name="editManager" class="form-control">
+      </div>
+    </div>
+
 
     <!-- Botões no rodapé do p-dialog -->
     <div class="form-actions">

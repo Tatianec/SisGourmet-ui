@@ -1,14 +1,17 @@
+
 .table-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   margin-top: 20px;
-  margin-right: 100px;
+  gap: 20px; /* Adiciona espaçamento vertical entre os elementos */
 }
 
+
+
 .table-container p-table p-button {
-  margin-left: 40px; /* Adicione o espaçamento horizontal desejado entre os botões */
+  margin-left: 10px; /* Adicione o espaçamento horizontal desejado entre os botões */
 }
 
 h2 {
