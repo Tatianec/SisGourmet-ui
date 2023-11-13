@@ -37,9 +37,9 @@ export class DashboardComponent implements OnInit {
   }
 
   loadTotalProdutos(): void {
-    this.productService.listarProdutos().subscribe(
+    this.productService.getProdutos().subscribe(
       (products) => {
-        this.totalPedidos = products.length;
+        this.totalProdutos = products.length;
       },
       (error) => {
         console.error('Erro ao carregar total de pedidos:', error);
@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
   loadTotalFuncionarios(): void {
     this.employeeService.getEmployees().subscribe(
       (employees) => {
-        this.totalPedidos = employees.length;
+        this.totalFuncionarios = employees.length;
       },
       (error) => {
         console.error('Erro ao carregar total de pedidos:', error);

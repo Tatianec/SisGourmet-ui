@@ -22,6 +22,10 @@ export class ProductService {
     );
   }
 
+  getProdutos(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.baseUrl);
+  }
+
   // Cria um novo produto
   criarProduto(produtoData: Product): Observable<Product> {
     return this.http.post<Product>(this.baseUrl, produtoData).pipe(
