@@ -45,6 +45,8 @@ export class AddPedidoComponent implements OnInit {
       observation: [null, [Validators.required, Validators.maxLength(100)]],
       selectedProducts: this.fb.array([]),
     });
+
+
   }
 
 

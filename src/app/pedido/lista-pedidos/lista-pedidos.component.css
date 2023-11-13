@@ -5,6 +5,7 @@
   align-items: center;
   text-align: center;
   margin-top: 20px;
+  margin-right: 100px;
   gap: 20px; /* Adiciona espaçamento vertical entre os elementos */
 }
 

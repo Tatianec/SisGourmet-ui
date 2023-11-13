@@ -2,37 +2,40 @@
 <app-add-desk></app-add-desk>
 <div class="table-container">
   <h2>Controle de Mesas</h2>
-
-  <!-- p-dialog para edição de mesas -->
-  <p-dialog header="Editar Mesa" [(visible)]="visible" [style]="{'max-width': '50vw', 'width': 'auto' }">
-    <!-- Conteúdo do p-dialog -->
-    <form class="dialog-form">
-      <div class="form-row">
-        <div class="form-field">
-          <label for="editDeskId">Número da Mesa:</label>
-          <input id="editDeskId" type="text" [(ngModel)]="selectedDesk.id" name="editDeskId" class="form-control" disabled>
-        </div>
-
-        <div class="form-field">
-          <label for="editCapacity">Capacidade:</label>
-          <input id="editCapacity" type="number" [(ngModel)]="selectedDesk.capacity" name="editCapacity" class="form-control">
-        </div>
-
-        <div class="form-field">
-          <label for="editAvailable">Disponível:</label>
-          <p-checkbox id="editAvailable" [(ngModel)]="selectedDesk.available" name="editAvailable"></p-checkbox>
-        </div>
+<!-- p-dialog para edição de mesas -->
+<!-- p-dialog para edição de mesas -->
+<p-dialog header="Editar Mesa" [(visible)]="visible" [style]="{'max-width': '50vw', 'width': 'auto' }">
+  <!-- Conteúdo do p-dialog -->
+  <form class="dialog-form">
+    <div class="form-row">
+      <div class="form-field">
+        <label for="editDeskId">Número da Mesa:</label>
+        <input id="editDeskId" type="text" [(ngModel)]="selectedDesk.nro_desk" name="editDeskId" class="form-control">
       </div>
 
-      <!-- Botões no rodapé do p-dialog -->
-      <div class="form-actions">
+      <div class="form-field">
+        <label for="editCapacity">Capacidade:</label>
+        <input id="editCapacity" type="number" [(ngModel)]="selectedDesk.capacity" name="editCapacity" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-row" >
+      <div class="form-field" style="margin-top: 10px;">
+        <label for="editAvailable" style="display: flex; align-items: center;">Disponível:
+          <input id="editAvailable" type="checkbox" [(ngModel)]="selectedDesk.available" name="editAvailable" class="form-control">
+        </label>
+      </div>
+
+      <div class="form-field" style="margin-left: auto;">
         <p-button (click)="saveChanges()">Salvar</p-button>
-        <!-- <p-button (click)="cancelDeskEdit()">Cancelar</p-button> -->
       </div>
-    </form>
-  </p-dialog>
+    </div>
 
-  <p-table [value]="desks" [rows]="10">
+  </form>
+</p-dialog>
+
+
+  <p-table [value]="desks" [rows]="10" sortField="nro_desk">
     <ng-template pTemplate="header">
       <tr>
         <th>Número da Mesa</th>
@@ -43,7 +46,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-desk>
       <tr>
-        <td>{{ desk.id }}</td>
+        <td>{{ desk.nro_desk }}</td>
         <td>{{ desk.capacity }}</td>
         <td [ngStyle]="{'color': desk.available ? 'green' : 'red'}">
           {{ desk.available ? 'Disponível' : 'Ocupada' }}

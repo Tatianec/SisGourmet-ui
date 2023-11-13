@@ -22,18 +22,18 @@
       </div>
     </div>
 
+
     <div class="form-row">
-      <div class="form-field">
-        <label for="editManager">Gerente</label>
-        <input id="editManager" type="checkbox" [(ngModel)]="selectedEmployee.manager" name="editManager" class="form-control">
+      <div class="form-field" style="margin-top: 10px;">
+        <label for="editManager" style="display: flex; align-items: center;">Gerente:
+          <input id="editManager" type="checkbox" [(ngModel)]="selectedEmployee.manager" name="editManager"
+            class="form-control">
+        </label>
       </div>
-    </div>
 
-
-    <!-- Botões no rodapé do p-dialog -->
-    <div class="form-actions">
-      <p-button (click)="saveChanges()">Salvar</p-button>
-      <!-- <p-button (click)="cancelEdit()">Cancelar</p-button> -->
+      <div class="form-field" style="margin-left: auto;">
+        <p-button (click)="saveChanges()">Salvar</p-button>
+      </div>
     </div>
   </form>
 </p-dialog>

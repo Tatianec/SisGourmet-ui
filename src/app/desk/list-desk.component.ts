@@ -14,6 +14,7 @@ export class ListDeskComponent implements OnInit {
     id: 0,
     capacity: 0,
     available: 0,
+    nro_desk: 0,
   };
 
   constructor(private deskService: DeskService) {}
@@ -37,7 +38,8 @@ export class ListDeskComponent implements OnInit {
     this.selectedDesk = {
       id: desk.id,
       capacity: desk.capacity,
-      available: desk.available == 0, // Deve ser 0 ou 1
+      available: desk.available,
+      nro_desk: desk.nro_desk,
     };
   }
 
