@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject, catchError, tap } from 'rxjs';
+import { Observable, Subject, catchError, tap, throwError } from 'rxjs';
 import { Employee } from '../models/employee.model';
 
 @Injectable({
@@ -20,7 +20,14 @@ export class EmployeeService {
   }
 
   getEmployees(): Observable<Employee[]> {
-    return this.http.get<Employee[]>(this.apiUrl);
+    return this.http.get<Employee[]>(this.apiUrl)
+  .pipe(
+    catchError((error) => {
+      console.error('Error loading employees:', error);
+      return throwError('Unable to load employees. Please try again later.');
+    })
+  );
+
   }
 
   createEmployee(employeeData: Employee): Observable<Employee> {

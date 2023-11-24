@@ -70,14 +70,11 @@ export class ListEmployeeComponent implements OnInit{
         (response) => {
           console.log('Response:', response);
           console.log('Produto atualizado com sucesso.');
-          // Fecha o p-dialog após salvar as alterações
           this.visible = false;
-          // Atualiza a lista de produtos
           this.atualizarFuncionarios();
         },
         (error: any) => {
           console.error('Erro ao atualizar o produto:', error);
-          // Adicione a lógica de tratamento de erro, se necessário
         }
       );
   }

@@ -16,7 +16,7 @@ export class ListProductComponent {
     description: '',
     qtd_items: 0,
     total: 0,
-  }; // Inicialize conforme necessário
+  }; 
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
@@ -38,8 +38,7 @@ export class ListProductComponent {
       if (product.id !== undefined) {
         this.productService.deleteProduct(product.id).subscribe(
           () => {
-            console.log('Mesa excluída com sucesso.');
-            // Atualize a lista de mesas após a exclusão
+            console.log('Mesa excluída com sucesso.')
             this.atualizarProdutos();
           },
           (error: any) => {
@@ -60,20 +59,18 @@ export class ListProductComponent {
   }
 
   saveChanges(): void {
-    // Chama o serviço para atualizar o produto
     this.productService
       .atualizarProduto(this.selectedProduct.id, this.selectedProduct)
       .subscribe(
         () => {
           console.log('Produto atualizado com sucesso.');
-          // Fecha o p-dialog após salvar as alterações
+
           this.visible = false;
-          // Atualiza a lista de produtos
+
           this.atualizarProdutos();
         },
         (error: any) => {
           console.error('Erro ao atualizar o produto:', error);
-          // Adicione a lógica de tratamento de erro, se necessário
         }
       );
   }

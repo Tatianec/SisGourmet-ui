@@ -24,10 +24,6 @@ export class AddDeskComponent implements OnInit {
 
   validateDuplicateNumber(control: any) {
     const value = control.value;
-
-    // Aqui você deve implementar a lógica para verificar se o número já existe
-    // Por exemplo, você pode chamar um serviço que verifica no servidor
-
     return this.deskService.checkIfNumberExists(value).pipe(
       map((exists: boolean) => {
         return exists ? { duplicateNumber: true } : null;
@@ -43,7 +39,6 @@ export class AddDeskComponent implements OnInit {
       const mesaData: Desk = this.deskForm.value as Desk;
       mesaData.available = 1;
 
-      // Enviar os dados para o serviço para salvar no servidor
       this.deskService.createDesk(mesaData).subscribe(
         (response: any) => {
           console.log('Mesa cadastrada com sucesso.', response);

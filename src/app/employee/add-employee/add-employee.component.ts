@@ -20,21 +20,20 @@ export class EmployeeRegisterComponent implements OnInit {
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      manager: [false] // Inicializado com false (não é gerente)
+      manager: [false]
     });
   }
 
   salvarFuncionario() {
     if (this.employeeForm.valid) {
       const employeeData = this.employeeForm.value as Employee;
-      // Converter o valor do campo "Gerente" para 0 ou 1
       employeeData.manager = employeeData.manager ? 1 : 0;
 
       this.employeeService.createEmployee(employeeData).subscribe(
         () => {
           console.log('Funcionário criado com sucesso.');
           this.employeeForm.reset();
-          this.displayDialog = true; // Exibe a caixa de diálogo de sucesso
+          this.displayDialog = true;
         },
         (error) => {
           console.error('Erro ao criar funcionário:', error);
@@ -44,7 +43,7 @@ export class EmployeeRegisterComponent implements OnInit {
   }
 
   fecharDialog() {
-    this.displayDialog = false; // Fecha a caixa de diálogo
-    this.router.navigate(['/login']); // Redireciona para a página de login
+    this.displayDialog = false; 
+    this.router.navigate(['/login']); 
   }
 }

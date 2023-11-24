@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Pedido } from '../models/pedido.model';
-import { AuthService } from './auth.service'; // Importar AuthService para acessar o ID do usuário logado
+import { AuthService } from './auth.service'; 
 
 @Injectable({
   providedIn: 'root'

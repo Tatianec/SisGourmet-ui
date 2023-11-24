@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { EmployeeService } from '../services/employee.service';
-import { AuthService } from '../services/auth.service'; // Importe o AuthService
+import { AuthService } from '../services/auth.service';
 import { Message } from 'primeng/api';
 
 @Component({
@@ -12,13 +12,16 @@ import { Message } from 'primeng/api';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  loginForm: FormGroup = new FormGroup({});
+  loginForm: FormGroup = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+  });
   msgs: Message[] = [];
 
   constructor(
     private fb: FormBuilder,
     private employeeService: EmployeeService,
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router,
     private msgService: MessageService
   ) {}
@@ -49,24 +52,22 @@ export class LoginComponent implements OnInit {
   private handleLoginResponse(response: any) {
     console.log(response);
     if (response && response.success) {
-      this.authService.setLoggedInUserId(response.id); 
+      this.authService.setLoggedInUserId(response.id);
       this.router.navigate(['/home']);
     } else {
-      this.msgs = [];
-      this.msgs.push({
+      this.msgs = [{
         severity: 'error',
         summary: 'Erro',
         detail: 'Email ou senha incorretos',
-      });
+      }];
     }
   }
 
   private handleError(error: any) {
-    this.msgs = [];
-    this.msgs.push({
+    this.msgs = [{
       severity: 'error',
       summary: 'Erro',
       detail: 'Ocorreu um erro durante a tentativa de login. Por favor, tente novamente.',
-    });
+    }];
   }
 }
