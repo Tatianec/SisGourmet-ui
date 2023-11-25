@@ -28,26 +28,20 @@
     </div>
 
     <!-- Produtos e Quantidades -->
-    <div formArrayName="selectedProducts" class="row">
-      <div class="col">
-        <div *ngFor="let ctrlGroup of selectedProducts.controls; let i = index" [formGroupName]="i">
-        <label for="productId">Produto:</label>
-        <select id="productId" formControlName="productId" class="form-control">
-          <option *ngFor="let product of products" [value]="product.id">
-            {{ product.name }}
-          </option>
-        </select>
-      </div>
-      </div>
-      <div class="col">
-        <label for="total">Preço:</label>
-        <input type="number" id="total" placeholder="Preço" formControlName="total" class="form-control">
-      </div>
-      <div class="col">
-        <label for="quantity">Quantidade:</label>
-        <input type="number" id="quantity" placeholder="Quantidade" formControlName="quantity" class="form-control">
-      </div>
-    </div>
+<div formArrayName="selectedProducts" class="row">
+  <div class="col" *ngFor="let ctrlGroup of selectedProducts.controls; let i = index" [formGroupName]="i">
+    <label for="productId">Produto:</label>
+    <select id="productId" formControlName="productId" class="form-control">
+      <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+    </select>
+
+    <label for="productTotal">Preço:</label>
+    <input type="number" id="productTotal" placeholder="Preço" formControlName="productTotal" class="form-control">
+
+    <label for="quantity">Quantidade:</label>
+    <input type="number" id="quantity" placeholder="Quantidade" formControlName="quantity" class="form-control">
+  </div>
+</div>
 
     <!-- Total -->
     <div class="form-group">

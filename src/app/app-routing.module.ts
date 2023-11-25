@@ -7,16 +7,17 @@ import { ListProductComponent } from './product/list-product.component';
 import { ListDeskComponent } from './desk/list-desk.component';
 import { ListaPedidosComponent } from './pedido/lista-pedidos/lista-pedidos.component';
 import { AddPedidoComponent } from './pedido/add-pedido/add-pedido.component';
+import { AuthGuard } from './authguard/authguard.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'login'},
   {path: 'login', component: LoginComponent},
-  {path: 'home', component: HomeComponent},
-  {path: 'employee', component: ListEmployeeComponent},
-  {path: 'product', component: ListProductComponent},
-  {path: 'desk', component: ListDeskComponent},
-  {path: 'orders', component: ListaPedidosComponent},
-  {path: 'addPedido', component: AddPedidoComponent}
+  {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  {path: 'employee', component: ListEmployeeComponent, canActivate: [AuthGuard]},
+  {path: 'product', component: ListProductComponent, canActivate: [AuthGuard]  },
+  {path: 'desk', component: ListDeskComponent, canActivate: [AuthGuard]},
+  {path: 'orders', component: ListaPedidosComponent, canActivate: [AuthGuard]},
+  {path: 'addPedido', component: AddPedidoComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

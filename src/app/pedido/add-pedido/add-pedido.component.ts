@@ -45,10 +45,7 @@ export class AddPedidoComponent implements OnInit {
       observation: [null, [Validators.required, Validators.maxLength(100)]],
       selectedProducts: this.fb.array([]),
     });
-
-
   }
-
 
   get productQuantities(): FormArray {
     return this.pedidoForm.get('productQuantities') as FormArray;
@@ -78,9 +75,9 @@ export class AddPedidoComponent implements OnInit {
         data.forEach((product) => {
           productControls.push(
             this.fb.group({
-              productId: product.id,
-              productTotal: product.total,
-              quantity: 0,
+              productId: [product.id],
+              productTotal: [product.total],
+              quantity: [0, Validators.min(0)],
             })
           );
         });
@@ -89,37 +86,42 @@ export class AddPedidoComponent implements OnInit {
     );
   }
 
+  // add-pedido.component.ts
+
   onSubmit(): void {
     if (this.pedidoForm.valid) {
+      const selectedProducts = this.selectedProducts.controls
+        .filter((control) => control.get('quantity')?.value > 0)
+        .map((control) => ({
+          productId: control.get('productId')?.value,
+          productTotal: control.get('productTotal')?.value,
+          quantity: control.get('quantity')?.value,
+        }));
 
-        if (this.pedidoForm.get('selectedProducts')) {
-            const productData = (this.pedidoForm.get('selectedProducts') as FormArray).value;
-            const selectedProducts = productData
-                .filter((p: { productId: number; quantity: number }) => p.quantity > 0)
-                .map((p: { id_product: number; quantity: number }) => ({ id_product: p.id_product, qtd_sold: p.quantity }));
+      const newPedido: Pedido = {
+        ...this.pedidoForm.value,
+        date: this.formatDate(this.pedidoForm.value.date),
+        products: selectedProducts,
+      };
 
+      // Get the array of productIds
+      const productIds = selectedProducts.map((product) => product.productId);
 
-            const newPedido: Pedido = {
-                ...this.pedidoForm.value,
-                date: this.formatDate(this.pedidoForm.value.date),
-                products: selectedProducts
-            };
-
-            this.pedidoService.addPedido(newPedido).subscribe(
-                response => {
-                    console.log('Pedido adicionado com sucesso!', response);
-                    this.pedidoAdded.emit();
-                    this.pedidoForm.reset();
-                    alert('Pedido adicionado com sucesso!');
-                },
-                error => {
-                    console.error('Erro ao adicionar pedido:', error);
-                    alert('Erro ao adicionar pedido. Por favor, tente novamente.');
-                }
-            );
+      // Pass both newPedido and productIds to addPedido
+      this.pedidoService.addPedido(newPedido, productIds).subscribe(
+        (response) => {
+          console.log('Pedido adicionado com sucesso!', response);
+          this.pedidoAdded.emit();
+          this.pedidoForm.reset();
+          alert('Pedido adicionado com sucesso!');
+        },
+        (error) => {
+          console.error('Erro ao adicionar pedido:', error);
+          alert('Erro ao adicionar pedido. Por favor, tente novamente.');
         }
+      );
     } else {
-        alert('Por favor, preencha todos os campos do formulário corretamente.');
+      alert('Por favor, preencha todos os campos do formulário corretamente.');
     }
   }
 
@@ -131,7 +133,4 @@ export class AddPedidoComponent implements OnInit {
   get selectedProducts(): FormArray {
     return this.pedidoForm.get('selectedProducts') as FormArray;
   }
-
-
-
 }

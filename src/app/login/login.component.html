@@ -9,14 +9,15 @@
       <label for="password" class="custom-label">Senha:</label>
       <input formControlName="password" type="password" id="password" name="password" autocomplete="off"
         class="custom-input">
-    </div><br>
-    <p-messages [value]="msgs"></p-messages>
+    </div>
+    <div class="error-message">
+      <p-messages [value]="msgs"></p-messages>
+    </div>
     <button pButton type="button" (click)="onLogin()" label="Login" class="p-button"
-      [disabled]="loginForm.invalid"></button>
+    [disabled]="loginForm.invalid"></button>
     <hr>
   </form>
-  <hr>
-  <br>
+
   <p>
     Não tem uma conta? <a [routerLink]="['/employee']">Registrar Usuário</a>
   </p>

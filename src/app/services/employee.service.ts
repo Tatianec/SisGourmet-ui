@@ -12,13 +12,6 @@ export class EmployeeService {
 
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/authenticate`, {
-      email,
-      password,
-    });
-  }
-
   getEmployees(): Observable<Employee[]> {
     return this.http.get<Employee[]>(this.apiUrl)
   .pipe(

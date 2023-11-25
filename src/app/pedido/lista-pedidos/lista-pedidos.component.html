@@ -10,7 +10,7 @@
         <p-table [value]="pedidos" [rows]="10">
           <ng-template pTemplate="header">
             <tr>
-              <th>ID</th>
+              <!-- <th>ID</th> -->
               <th>Data</th>
               <th>Funcionário</th>
               <th>Mesa</th>
@@ -22,7 +22,7 @@
 
           <ng-template pTemplate="body" let-pedido>
             <tr>
-              <td>{{ pedido.id }}</td>
+              <!-- <td>{{ pedido.id }}</td> -->
               <td>{{ pedido.date }}</td>
               <td>{{ getEmployeeName(pedido.employee_id) }}</td>
               <td>{{ pedido.desk_id }}</td>

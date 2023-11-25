@@ -64,3 +64,15 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+.input-container {
+  position: relative;
+  margin-bottom: 20px; /* Ajuste conforme necessário */
+}
+
+.error-message {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 10px;
+}

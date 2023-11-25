@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private employeeService: EmployeeService,
     private authService: AuthService,
     private router: Router,
     private msgService: MessageService
@@ -42,32 +41,38 @@ export class LoginComponent implements OnInit {
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
 
-      this.employeeService.login(email, password).subscribe(
-        (response) => this.handleLoginResponse(response),
-        (error) => this.handleError(error)
+      this.authService.login(email, password).subscribe(
+        (response) => this.handleLoginSuccess(response),
+        (error) => this.handleLoginError(error)
       );
     }
   }
 
-  private handleLoginResponse(response: any) {
-    console.log(response);
+  private handleLoginSuccess(response: any) {
     if (response && response.success) {
+      console.log(response);
+      console.log("response");
+      console.log(response.data);
+
       this.authService.setLoggedInUserId(response.id);
+      const loggedInUserId = this.authService.getUserId(); // Use o método getUserId() aqui
+      console.log("Usuário logado com ID:", loggedInUserId);
       this.router.navigate(['/home']);
     } else {
-      this.msgs = [{
-        severity: 'error',
-        summary: 'Erro',
-        detail: 'Email ou senha incorretos',
-      }];
+      this.handleLoginError(response);
     }
   }
 
-  private handleError(error: any) {
-    this.msgs = [{
-      severity: 'error',
-      summary: 'Erro',
-      detail: 'Ocorreu um erro durante a tentativa de login. Por favor, tente novamente.',
-    }];
+  private handleLoginError(error: any) {
+    this.msgs = [
+      {
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'Email ou senha incorretos',
+      },
+    ];
   }
+
+
+
 }

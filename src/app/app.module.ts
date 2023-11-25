@@ -52,7 +52,7 @@ import { HeaderComponent } from './header/header.component';
     ListaPedidosComponent,
     AddPedidoComponent,
     DashboardComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
