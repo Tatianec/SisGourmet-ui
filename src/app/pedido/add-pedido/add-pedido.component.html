@@ -27,22 +27,6 @@
       </div>
     </div>
 
-    <!-- Produtos e Quantidades -->
-<div formArrayName="selectedProducts" class="row">
-  <div class="col" *ngFor="let ctrlGroup of selectedProducts.controls; let i = index" [formGroupName]="i">
-    <label for="productId">Produto:</label>
-    <select id="productId" formControlName="productId" class="form-control">
-      <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
-    </select>
-
-    <label for="productTotal">Preço:</label>
-    <input type="number" id="productTotal" placeholder="Preço" formControlName="productTotal" class="form-control">
-
-    <label for="quantity">Quantidade:</label>
-    <input type="number" id="quantity" placeholder="Quantidade" formControlName="quantity" class="form-control">
-  </div>
-</div>
-
     <!-- Total -->
     <div class="form-group">
       <label for="total">Total:</label>
@@ -57,6 +41,49 @@
 
     <button type="submit" class="btn btn-primary">Adicionar Pedido</button>
 
+
+    <div class="product-info-container">
+      <!-- Produtos e Quantidades -->
+      <div class="form-group">
+        <label for="productId">Produto:</label>
+        <select id="productId" formControlName="productId" class="form-control">
+          <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+        </select>
+
+        <label for="productTotal">Preço:</label>
+        <input type="number" id="productTotal" placeholder="Preço" formControlName="productTotal" class="form-control">
+
+        <label for="quantity">Quantidade:</label>
+        <input type="number" id="quantity" placeholder="Quantidade" formControlName="quantity" class="form-control">
+
+        <button type="button" (click)="adicionarProduto()">Adicionar Produto</button>
+      </div>
+    </div>
+
+    <!-- ... Seu código atual ... -->
+
+    <div class="product-list-container">
+      <!-- Lista de Produtos Temporários -->
+      <div class="grid-container" *ngIf="produtosTemporarios.length > 0">
+        <h3>Produtos Adicionados:</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Preço</th>
+              <th>Quantidade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let produto of produtosTemporarios">
+              <td>{{ produto.nome }}</td>
+              <td>{{ produto.preco }}</td>
+              <td>{{ produto.quantidade }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
   </form>
-</div>
 

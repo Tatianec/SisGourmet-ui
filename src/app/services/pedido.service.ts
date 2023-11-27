@@ -27,9 +27,9 @@ export class PedidoService {
 
 // pedido.service.ts
 
-addPedido(pedido: Pedido, productIds: number[]): Observable<Pedido> {
+addPedido(pedido: Pedido): Observable<Pedido> {
   const url = `${this.baseUrl}`;
-  const body = { pedido, productIds };
+  const body = { pedido };
   return this.http.post<Pedido>(url, body);
 }
 

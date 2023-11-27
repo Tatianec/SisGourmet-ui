@@ -34,6 +34,7 @@ import { AddPedidoComponent } from './pedido/add-pedido/add-pedido.component';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DashboardComponent } from './home/dashboard/dashboard.component';
 import { HeaderComponent } from './header/header.component';
+import { AddProdutoPedidoComponent } from './pedido/add-produto-pedido/add-produto-pedido.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { HeaderComponent } from './header/header.component';
     AddPedidoComponent,
     DashboardComponent,
     HeaderComponent,
+    AddProdutoPedidoComponent,
   ],
   imports: [
     BrowserModule,

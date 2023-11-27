@@ -19,6 +19,8 @@ export class AddPedidoComponent implements OnInit {
   desks: Desk[] = [];
   products: Product[] = [];
   pedidoForm!: FormGroup;
+  produtosTemporarios: any[] = [];
+
   @Output() pedidoAdded = new EventEmitter<void>();
 
   constructor(
@@ -43,7 +45,10 @@ export class AddPedidoComponent implements OnInit {
       desk_id: [null, Validators.required],
       total: [null, [Validators.required, Validators.min(0)]],
       observation: [null, [Validators.required, Validators.maxLength(100)]],
-      selectedProducts: this.fb.array([]),
+      productId: [null],
+      productTotal: [null],
+      quantity: [null, Validators.min(0)],
+      productIds: this.fb.array([]),
     });
   }
 
@@ -69,50 +74,43 @@ export class AddPedidoComponent implements OnInit {
     this.productService.listarProdutos().subscribe(
       (data) => {
         this.products = data;
-        const productControls = this.pedidoForm.get(
-          'selectedProducts'
-        ) as FormArray;
-        data.forEach((product) => {
-          productControls.push(
-            this.fb.group({
-              productId: [product.id],
-              productTotal: [product.total],
-              quantity: [0, Validators.min(0)],
-            })
-          );
-        });
       },
       (error) => console.error('Erro ao carregar produtos:', error)
     );
   }
 
-  // add-pedido.component.ts
-
   onSubmit(): void {
     if (this.pedidoForm.valid) {
-      const selectedProducts = this.selectedProducts.controls
-        .filter((control) => control.get('quantity')?.value > 0)
-        .map((control) => ({
-          productId: control.get('productId')?.value,
-          productTotal: control.get('productTotal')?.value,
-          quantity: control.get('quantity')?.value,
-        }));
+      const productIds = this.pedidoForm.get(
+        'productIds'
+      ) as FormArray;
+
+      // Adicionar produtos temporários aos produtos selecionados
+      this.produtosTemporarios.forEach((produtoTemporario) => {
+        productIds.push(
+          this.fb.group({
+            productId: [parseInt(produtoTemporario.nome, 10)],
+            productTotal: [produtoTemporario.preco],
+            quantity: [produtoTemporario.quantidade],
+          })
+        );
+      });
+
+      // Remover os campos indesejados antes de criar o objeto newPedido
+      const { productId, productTotal, quantity, ...newPedidoWithoutProducts } =
+        this.pedidoForm.value;
 
       const newPedido: Pedido = {
-        ...this.pedidoForm.value,
+        ...newPedidoWithoutProducts,
         date: this.formatDate(this.pedidoForm.value.date),
-        products: selectedProducts,
       };
 
-      // Get the array of productIds
-      const productIds = selectedProducts.map((product) => product.productId);
-
-      // Pass both newPedido and productIds to addPedido
-      this.pedidoService.addPedido(newPedido, productIds).subscribe(
+      this.pedidoService.addPedido(newPedido).subscribe(
         (response) => {
           console.log('Pedido adicionado com sucesso!', response);
           this.pedidoAdded.emit();
           this.pedidoForm.reset();
+          this.limparProdutosTemporarios(); // Limpar produtos temporários após o envio
           alert('Pedido adicionado com sucesso!');
         },
         (error) => {
@@ -125,12 +123,31 @@ export class AddPedidoComponent implements OnInit {
     }
   }
 
+  adicionarProduto(): void {
+    const novoProduto = {
+      nome: this.pedidoForm.get('productId')?.value, // Ajuste conforme a estrutura do seu modelo
+      preco: this.pedidoForm.get('productTotal')?.value,
+      quantidade: this.pedidoForm.get('quantity')?.value,
+    };
+
+    this.produtosTemporarios.push(novoProduto);
+
+    // Limpar os campos do formulário de produtos após adicionar
+    this.pedidoForm.get('productId')?.reset();
+    this.pedidoForm.get('productTotal')?.reset();
+    this.pedidoForm.get('quantity')?.reset();
+  }
+
+  limparProdutosTemporarios(): void {
+    this.produtosTemporarios = [];
+  }
+
   formatDate(date: Date): string {
     const d = new Date(date);
     return `${d.getDate() + 1}/${d.getMonth() + 1}/${d.getFullYear()}`;
   }
 
-  get selectedProducts(): FormArray {
-    return this.pedidoForm.get('selectedProducts') as FormArray;
+  get productIds() {
+    return this.pedidoForm.get('productIds');
   }
 }
