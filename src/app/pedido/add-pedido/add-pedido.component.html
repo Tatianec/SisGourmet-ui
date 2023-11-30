@@ -52,12 +52,11 @@
           </select>
         </div>
 
-        <!-- Preço -->
-        <div class="form-group">
-          <label for="productTotal">Preço:</label>
-          <input type="number" id="productTotal" placeholder="Preço" formControlName="productTotal" class="form-control" [value]="selectedProductPrice" (change)="updateProductTotal()">
-
-        </div>
+      <!-- Preço -->
+      <div class="form-group">
+        <label for="productTotal">Preço:</label>
+        <input type="number" id="productTotal" placeholder="Preço" formControlName="productTotal" class="form-control">
+      </div>
 
         <!-- Quantidade -->
         <div class="form-group">
@@ -67,8 +66,6 @@
         <button type="button" (click)="adicionarProduto()">Adicionar Produto</button>
       </div>
     </div>
-
-    <!-- ... Seu código atual ... -->
 
     <div class="product-list-container">
       <!-- Lista de Produtos Temporários -->

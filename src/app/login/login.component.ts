@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
       console.log(response.data);
 
       this.authService.setLoggedInUserId(response.id);
-      const loggedInUserId = this.authService.getUserId(); // Use o método getUserId() aqui
+      const loggedInUserId = this.authService.getUserId(); 
       console.log("Usuário logado com ID:", loggedInUserId);
       this.router.navigate(['/home']);
     } else {

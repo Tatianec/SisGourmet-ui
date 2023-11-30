@@ -49,8 +49,8 @@ export class AddPedidoComponent implements OnInit {
 
     this.pedidoForm.get('productId')?.valueChanges
     .pipe(
-      debounceTime(300), 
-      distinctUntilChanged(), 
+      debounceTime(300),
+      distinctUntilChanged(),
       switchMap((productId: number) => this.productService.getProductById(productId))
     )
     .subscribe(
@@ -63,6 +63,7 @@ export class AddPedidoComponent implements OnInit {
         console.error('Erro ao obter detalhes do produto:', error);
       }
     );
+  
   }
 
   initializeForm(): void {
@@ -84,16 +85,16 @@ export class AddPedidoComponent implements OnInit {
 
   updateProductTotal(): void {
     const selectedProductId = this.pedidoForm.get('productId')?.value;
-    const selectedProduct = this.products.find(product => product.id === selectedProductId);
-
+  
+    const selectedProduct = this.products.find(product => product.id === Number(selectedProductId));
+    
     if (selectedProduct) {
-      this.selectedProductPrice = selectedProduct.total;
-      this.pedidoForm.patchValue({ productTotal: this.selectedProductPrice });
+      this.pedidoForm.get('productTotal')?.setValue(selectedProduct.total);
+    } else {
+      console.error('Product not found for the selected ID:', selectedProductId);
     }
   }
-
-
-
+  
   get productQuantities(): FormArray {
     return this.pedidoForm.get('productQuantities') as FormArray;
   }
@@ -218,21 +219,34 @@ export class AddPedidoComponent implements OnInit {
   }
 
   adicionarProduto(): void {
-    const novoProduto = {
-      nome: this.pedidoForm.get('productId')?.value, 
-      preco: this.pedidoForm.get('productTotal')?.value,
-      quantidade: this.pedidoForm.get('quantity')?.value,
-    };
+    const productIdControl = this.pedidoForm.get('productId');
+    const productTotalControl = this.pedidoForm.get('productTotal');
+    const quantityControl = this.pedidoForm.get('quantity');
 
-    this.produtosTemporarios.push(novoProduto);
+    if (productIdControl && productTotalControl && quantityControl) {
+      const novoProduto = {
+        nome: productIdControl.value,
+        preco: productTotalControl.value,
+        quantidade: quantityControl.value,
+      };
 
-    this.pedidoForm.get('productId')?.reset();
-    this.pedidoForm.get('productTotal')?.reset();
-    this.pedidoForm.get('quantity')?.reset();
-    this.updateProductTotal();
-    this.atualizarTotalNoFormulario();
+      this.produtosTemporarios.push(novoProduto);
+
+      productIdControl.reset();
+      productTotalControl.reset();
+      quantityControl.reset();
+
+      productIdControl.setValue(null);
+      productIdControl.markAsTouched();
+
+      this.updateProductTotal();
+
+      productIdControl.updateValueAndValidity();
+
+      this.atualizarTotalNoFormulario();
+    }
   }
-
+  
   limparProdutosTemporarios(): void {
     this.produtosTemporarios = [];
     this.atualizarTotalNoFormulario();
@@ -259,5 +273,4 @@ export class AddPedidoComponent implements OnInit {
     );
   }
  
-  
 }
