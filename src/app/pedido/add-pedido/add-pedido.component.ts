@@ -49,9 +49,9 @@ export class AddPedidoComponent implements OnInit {
 
     this.pedidoForm.get('productId')?.valueChanges
     .pipe(
-      debounceTime(300), // Aguarda 300ms após a última alteração
-      distinctUntilChanged(), // Garante que apenas alterações distintas são processadas
-      switchMap((productId: number) => this.productService.getProductById(productId)) // Obtém o produto do serviço
+      debounceTime(300), 
+      distinctUntilChanged(), 
+      switchMap((productId: number) => this.productService.getProductById(productId))
     )
     .subscribe(
       (selectedProduct: Product | undefined) => {
@@ -125,7 +125,6 @@ export class AddPedidoComponent implements OnInit {
     if (this.pedidoForm.valid) {
       const productIds = this.pedidoForm.get('productIds') as FormArray;
 
-      // Adicionar produtos temporários aos produtos selecionados
       this.produtosTemporarios.forEach((produtoTemporario) => {
         productIds.push(
           this.fb.group({
@@ -136,7 +135,6 @@ export class AddPedidoComponent implements OnInit {
         );
       });
 
-      // Remover os campos indesejados antes de criar o objeto newPedido
       const { productId, productTotal, quantity, ...newPedidoWithoutProducts } =
         this.pedidoForm.value;
 
@@ -150,12 +148,12 @@ export class AddPedidoComponent implements OnInit {
           const pedidoId = response.id;
 
           if (pedidoId !== undefined) {
-            // Adicionar produtos usando o ID do pedido retornado
+
             this.addProductsToPedido(pedidoId, productIds);
 
             console.log('Pedido adicionado com sucesso!', response);
             this.pedidoAdded.emit();
-            this.limparProdutosTemporarios(); // Limpar produtos temporários após o envio
+            this.limparProdutosTemporarios(); 
             alert('Pedido adicionado com sucesso!');
           } else {
             console.error(
@@ -221,22 +219,23 @@ export class AddPedidoComponent implements OnInit {
 
   adicionarProduto(): void {
     const novoProduto = {
-      nome: this.pedidoForm.get('productId')?.value, // Ajuste conforme a estrutura do seu modelo
+      nome: this.pedidoForm.get('productId')?.value, 
       preco: this.pedidoForm.get('productTotal')?.value,
       quantidade: this.pedidoForm.get('quantity')?.value,
     };
 
     this.produtosTemporarios.push(novoProduto);
 
-    // Limpar os campos do formulário de produtos após adicionar
     this.pedidoForm.get('productId')?.reset();
     this.pedidoForm.get('productTotal')?.reset();
     this.pedidoForm.get('quantity')?.reset();
     this.updateProductTotal();
+    this.atualizarTotalNoFormulario();
   }
 
   limparProdutosTemporarios(): void {
     this.produtosTemporarios = [];
+    this.atualizarTotalNoFormulario();
   }
 
   formatDate(date: Date): string {
@@ -247,4 +246,18 @@ export class AddPedidoComponent implements OnInit {
   get productIds() {
     return this.pedidoForm.get('productIds');
   }
+
+  atualizarTotalNoFormulario(): void {
+    const totalProdutosTemporarios = this.calcularTotalProdutosTemporarios();
+    this.pedidoForm.patchValue({ total: totalProdutosTemporarios });
+  }
+
+  calcularTotalProdutosTemporarios(): number {
+    return this.produtosTemporarios.reduce(
+      (total, produto) => total + produto.preco * produto.quantidade,
+      0
+    );
+  }
+ 
+  
 }

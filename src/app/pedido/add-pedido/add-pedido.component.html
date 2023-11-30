@@ -80,6 +80,7 @@
               <th>Produto</th>
               <th>Preço</th>
               <th>Quantidade</th>
+              <th>Total</th>
             </tr>
           </thead>
           <tbody>
@@ -87,6 +88,7 @@
               <td>{{ produto.nome }}</td>
               <td>{{ produto.preco }}</td>
               <td>{{ produto.quantidade }}</td>
+              <td>{{ produto.preco * produto.quantidade }}</td>
             </tr>
           </tbody>
         </table>
