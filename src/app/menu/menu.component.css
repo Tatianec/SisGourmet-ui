@@ -24,3 +24,12 @@
 .menu-icon {
   font-size: 28px;
 }
+
+.center-card {
+  position: relative;
+}
+
+.logout-button {
+  position: absolute;
+  bottom: 10px; /* Ajuste conforme necessário */
+}

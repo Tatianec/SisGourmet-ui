@@ -58,7 +58,7 @@ export class ListaPedidosComponent implements OnInit {
   }
 
   deletePedido(pedido: Pedido) {
-    if (confirm('Tem certeza que deseja excluir esta mesa?')) {
+    if (confirm('Tem certeza que deseja excluir este pedido?')) {
       if (pedido.id !== undefined) {
         this.pedidoService.deletePedido(pedido.id).subscribe(
           () => {

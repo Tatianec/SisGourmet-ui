@@ -1,4 +1,3 @@
-
 .table-container {
   display: flex;
   flex-direction: column;
@@ -7,9 +6,8 @@
   margin-top: 20px;
   margin-right: 100px;
   gap: 20px; /* Adiciona espaçamento vertical entre os elementos */
+  margin-bottom: 100px;
 }
-
-
 
 .table-container p-table p-button {
   margin-left: 10px; /* Adicione o espaçamento horizontal desejado entre os botões */
@@ -25,7 +23,8 @@ p-table {
   border-collapse: collapse;
 }
 
-p-table th, p-table td {
+p-table th,
+p-table td {
   border: 1px solid #bdbdbd; /* Cor da borda azul */
   padding: 8px;
   text-align: left;

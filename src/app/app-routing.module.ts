@@ -8,6 +8,7 @@ import { ListDeskComponent } from './desk/list-desk.component';
 import { ListaPedidosComponent } from './pedido/lista-pedidos/lista-pedidos.component';
 import { AddPedidoComponent } from './pedido/add-pedido/add-pedido.component';
 import { AuthGuard } from './authguard/authguard.component';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'login'},
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path: 'product', component: ListProductComponent, canActivate: [AuthGuard]  },
   {path: 'desk', component: ListDeskComponent, canActivate: [AuthGuard]},
   {path: 'orders', component: ListaPedidosComponent, canActivate: [AuthGuard]},
-  {path: 'addPedido', component: AddPedidoComponent, canActivate: [AuthGuard]}
+  {path: 'addPedido', component: AddPedidoComponent, canActivate: [AuthGuard]},
+  {path: 'register', component: RegisterComponent}
 ];
 
 @NgModule({

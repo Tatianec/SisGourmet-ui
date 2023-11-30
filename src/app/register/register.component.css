@@ -1,0 +1,78 @@
+.container {
+  width: 100%;
+  max-width: 400px;
+  margin: 200px auto 0;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.center-card {
+  margin: 0 auto;  /* Define as margens horizontalmente para centralizar o elemento */
+  position: absolute; /* Define a posição como absoluta */
+  top: 50%; /* Alinha o topo do elemento ao centro da tela */
+  left: 50%; /* Alinha a esquerda do elemento ao centro da tela */
+  transform: translate(-50%, -50%); /* Move o elemento para o centro */
+}
+
+
+h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px; /* Largura máxima do formulário */
+}
+
+.p-field {
+  margin-bottom: 20px;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+input, button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.input-container {
+  position: relative;
+  margin-bottom: 20px; /* Ajuste conforme necessário */
+}
+
+.error-message {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin-bottom: 10px;
+}

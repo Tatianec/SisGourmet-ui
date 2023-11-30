@@ -20,7 +20,7 @@ export class AuthService {
       .pipe(
         tap((response) => {
           if (response && response.success && response.data && response.data.id) {
-            this.setLoggedInUserId(response.data.id); // Alteração aqui
+            this.setLoggedInUserId(response.data.id);
             console.log('Usuário logado com ID:', response.data.id);
           }
         }),
@@ -33,23 +33,15 @@ export class AuthService {
 
   logout(): void {
     this.loggedInUserId = null;
-    sessionStorage.removeItem('loggedUserId');
+    localStorage.removeItem('loggedUserId');
   }
 
   setLoggedInUserId(id: number | null): void {
     if (id !== null && id !== undefined) {
-      console.log('teste2');
       this.loggedInUserId = id;
-      sessionStorage.setItem('loggedUserId', id.toString());
-      console.log('ID de usuário definido como:', id);
-      console.log(
-        'Valor armazenado no Local Storage:',
-        sessionStorage.getItem('loggedUserId')
-      );
+      localStorage.setItem('loggedUserId', id.toString());
     } else {
-      console.error(
-        'Tentativa de definir ID de usuário como null ou undefined'
-      );
+      console.error('Tentativa de definir ID de usuário como null ou undefined');
     }
   }
 
@@ -58,7 +50,7 @@ export class AuthService {
   }
 
   getUserId(): number | null {
-    const storedId = sessionStorage.getItem('loggedUserId');
+    const storedId = localStorage.getItem('loggedUserId');
     return this.loggedInUserId ?? (storedId ? Number(storedId) : null);
   }
 }

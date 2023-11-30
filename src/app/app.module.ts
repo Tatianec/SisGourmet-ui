@@ -35,6 +35,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { DashboardComponent } from './home/dashboard/dashboard.component';
 import { HeaderComponent } from './header/header.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { DropdownModule } from 'primeng/dropdown';
     AddPedidoComponent,
     DashboardComponent,
     HeaderComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
