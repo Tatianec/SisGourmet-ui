@@ -1,5 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Employee } from '../../models/employee.model';
 import { Product } from '../../models/product.model';
 import { PedidoService } from '../../services/pedido.service';
@@ -8,6 +14,8 @@ import { EmployeeService } from '../../services/employee.service';
 import { DeskService } from '../../services/desk.service';
 import { Desk } from 'src/app/models/desk.model';
 import { Pedido } from 'src/app/models/pedido.model';
+import { PedidoProductService } from 'src/app/services/pedidoproduct.service';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-add-pedido',
@@ -15,20 +23,22 @@ import { Pedido } from 'src/app/models/pedido.model';
   styleUrls: ['./add-pedido.component.css'],
 })
 export class AddPedidoComponent implements OnInit {
+  @Output() pedidoAdded = new EventEmitter<void>();
+
   employees: Employee[] = [];
   desks: Desk[] = [];
   products: Product[] = [];
   pedidoForm!: FormGroup;
   produtosTemporarios: any[] = [];
-
-  @Output() pedidoAdded = new EventEmitter<void>();
+  selectedProductPrice: number = 0;
 
   constructor(
     private fb: FormBuilder,
     private pedidoService: PedidoService,
     private productService: ProductService,
     private employeeService: EmployeeService,
-    private deskService: DeskService
+    private deskService: DeskService,
+    private pedidoProductService: PedidoProductService
   ) {}
 
   ngOnInit(): void {
@@ -36,13 +46,33 @@ export class AddPedidoComponent implements OnInit {
     this.loadEmployees();
     this.loadDesks();
     this.loadProducts();
+
+    this.pedidoForm.get('productId')?.valueChanges
+    .pipe(
+      debounceTime(300), // Aguarda 300ms após a última alteração
+      distinctUntilChanged(), // Garante que apenas alterações distintas são processadas
+      switchMap((productId: number) => this.productService.getProductById(productId)) // Obtém o produto do serviço
+    )
+    .subscribe(
+      (selectedProduct: Product | undefined) => {
+        if (selectedProduct) {
+          this.pedidoForm.patchValue({ productTotal: selectedProduct.total });
+        }
+      },
+      error => {
+        console.error('Erro ao obter detalhes do produto:', error);
+      }
+    );
   }
 
   initializeForm(): void {
+    const defaultEmployeeId = this.employees.length > 0 ? this.employees[0].id : null;
+    const defaultDeskId = this.desks.length > 0 ? this.desks[0].id : null;
+
     this.pedidoForm = this.fb.group({
-      date: [null, Validators.required],
-      employee_id: [null, Validators.required],
-      desk_id: [null, Validators.required],
+      date: [new Date().toISOString().split('T')[0]],
+      employee_id: [defaultEmployeeId, Validators.required],
+      desk_id: [defaultDeskId, Validators.required],
       total: [null, [Validators.required, Validators.min(0)]],
       observation: [null, [Validators.required, Validators.maxLength(100)]],
       productId: [null],
@@ -51,6 +81,18 @@ export class AddPedidoComponent implements OnInit {
       productIds: this.fb.array([]),
     });
   }
+
+  updateProductTotal(): void {
+    const selectedProductId = this.pedidoForm.get('productId')?.value;
+    const selectedProduct = this.products.find(product => product.id === selectedProductId);
+
+    if (selectedProduct) {
+      this.selectedProductPrice = selectedProduct.total;
+      this.pedidoForm.patchValue({ productTotal: this.selectedProductPrice });
+    }
+  }
+
+
 
   get productQuantities(): FormArray {
     return this.pedidoForm.get('productQuantities') as FormArray;
@@ -81,9 +123,7 @@ export class AddPedidoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.pedidoForm.valid) {
-      const productIds = this.pedidoForm.get(
-        'productIds'
-      ) as FormArray;
+      const productIds = this.pedidoForm.get('productIds') as FormArray;
 
       // Adicionar produtos temporários aos produtos selecionados
       this.produtosTemporarios.forEach((produtoTemporario) => {
@@ -107,11 +147,22 @@ export class AddPedidoComponent implements OnInit {
 
       this.pedidoService.addPedido(newPedido).subscribe(
         (response) => {
-          console.log('Pedido adicionado com sucesso!', response);
-          this.pedidoAdded.emit();
-          this.pedidoForm.reset();
-          this.limparProdutosTemporarios(); // Limpar produtos temporários após o envio
-          alert('Pedido adicionado com sucesso!');
+          const pedidoId = response.id;
+
+          if (pedidoId !== undefined) {
+            // Adicionar produtos usando o ID do pedido retornado
+            this.addProductsToPedido(pedidoId, productIds);
+
+            console.log('Pedido adicionado com sucesso!', response);
+            this.pedidoAdded.emit();
+            this.limparProdutosTemporarios(); // Limpar produtos temporários após o envio
+            alert('Pedido adicionado com sucesso!');
+          } else {
+            console.error(
+              'Erro ao obter ID do pedido na resposta do servidor.'
+            );
+            alert('Erro ao adicionar pedido. Por favor, tente novamente.');
+          }
         },
         (error) => {
           console.error('Erro ao adicionar pedido:', error);
@@ -121,6 +172,51 @@ export class AddPedidoComponent implements OnInit {
     } else {
       alert('Por favor, preencha todos os campos do formulário corretamente.');
     }
+  }
+
+  addProductsToPedido(pedidoId: number, productIds: FormArray): void {
+    productIds.controls.forEach(
+      (
+        productControl: AbstractControl,
+        index: number,
+        array: AbstractControl[]
+      ) => {
+        if (productControl instanceof FormGroup) {
+          const productId = productControl.get('productId')?.value;
+          const quantity = productControl.get('quantity')?.value;
+
+          if (productId !== undefined && quantity !== undefined) {
+            const pedidoProduct = {
+              id_pedido: {
+                id: pedidoId,
+              },
+              id_product: {
+                id: productId,
+              },
+
+              qtd_sold: quantity,
+            };
+
+            this.pedidoProductService
+              .createPedidoProduct(pedidoProduct)
+              .subscribe(
+                (response) => {
+                  console.log(
+                    'Produto adicionado ao pedido com sucesso!',
+                    response
+                  );
+                },
+                (error) => {
+                  console.error('Erro ao adicionar produto ao pedido:', error);
+                  alert(
+                    'Erro ao adicionar produto ao pedido. Por favor, tente novamente.'
+                  );
+                }
+              );
+          }
+        }
+      }
+    );
   }
 
   adicionarProduto(): void {
@@ -136,6 +232,7 @@ export class AddPedidoComponent implements OnInit {
     this.pedidoForm.get('productId')?.reset();
     this.pedidoForm.get('productTotal')?.reset();
     this.pedidoForm.get('quantity')?.reset();
+    this.updateProductTotal();
   }
 
   limparProdutosTemporarios(): void {

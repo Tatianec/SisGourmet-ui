@@ -7,7 +7,7 @@
     <div class="form-group" class="row">
       <div class="col">
         <label for="date">Data:</label>
-        <input type="date" id="date" formControlName="date" class="form-control">
+        <input type="date" id="date" formControlName="date" class="form-control" readonly>
       </div>
 
       <!-- Funcionário -->
@@ -45,17 +45,25 @@
     <div class="product-info-container">
       <!-- Produtos e Quantidades -->
       <div class="form-group">
-        <label for="productId">Produto:</label>
-        <select id="productId" formControlName="productId" class="form-control">
-          <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
-        </select>
+        <div class="form-group">
+          <label for="productId">Produto:</label>
+          <select id="productId" formControlName="productId" class="form-control" (change)="updateProductTotal()">
+            <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+          </select>
+        </div>
 
-        <label for="productTotal">Preço:</label>
-        <input type="number" id="productTotal" placeholder="Preço" formControlName="productTotal" class="form-control">
+        <!-- Preço -->
+        <div class="form-group">
+          <label for="productTotal">Preço:</label>
+          <input type="number" id="productTotal" placeholder="Preço" formControlName="productTotal" class="form-control" [value]="selectedProductPrice" (change)="updateProductTotal()">
 
-        <label for="quantity">Quantidade:</label>
-        <input type="number" id="quantity" placeholder="Quantidade" formControlName="quantity" class="form-control">
+        </div>
 
+        <!-- Quantidade -->
+        <div class="form-group">
+          <label for="quantity">Quantidade:</label>
+          <input type="number" id="quantity" placeholder="Quantidade" formControlName="quantity" class="form-control">
+        </div>
         <button type="button" (click)="adicionarProduto()">Adicionar Produto</button>
       </div>
     </div>

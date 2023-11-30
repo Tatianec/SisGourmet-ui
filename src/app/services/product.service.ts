@@ -9,11 +9,19 @@ import { Product } from '../models/product.model';
 })
 export class ProductService {
 
+
   private baseUrl = 'http://localhost:8080/product';
 
   private produtoAdicionadoSubject = new Subject<void>();
 
   constructor(private http: HttpClient) {}
+
+  getProductById(id: number): Observable<Product> {
+    const getUrl = `${this.baseUrl}/${id}`;
+    return this.http.get<Product>(getUrl).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   listarProdutos(): Observable<Product[]> {
     return this.http.get<Product[]>(this.baseUrl).pipe(

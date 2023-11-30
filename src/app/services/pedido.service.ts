@@ -5,13 +5,12 @@ import { Pedido } from '../models/pedido.model';
 import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PedidoService {
-
   private baseUrl = 'http://localhost:8080/pedido';
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getCurrentUserId(): number | null {
     return this.authService.getUserId();
@@ -25,15 +24,11 @@ export class PedidoService {
     return this.http.get<Pedido>(`${this.baseUrl}/${id}`);
   }
 
-// pedido.service.ts
 
-addPedido(pedido: Pedido): Observable<Pedido> {
-  const url = `${this.baseUrl}`;
-  const body = { pedido };
-  return this.http.post<Pedido>(url, body);
-}
-
-
+  addPedido(pedido: Pedido): Observable<Pedido> {
+    const url = `${this.baseUrl}`;
+    return this.http.post<Pedido>(url, pedido);
+  }
 
   deletePedido(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);

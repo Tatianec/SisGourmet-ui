@@ -6,13 +6,13 @@ import { OrderItems } from '../models/order_item.model';
 @Injectable({
   providedIn: 'root'
 })
-export class OrderItemsService {
-  private baseUrl = 'http://localhost:8080/orderItems';
+export class PedidoProductService {
+  private baseUrl = 'http://localhost:8080/pedido_product';
 
   constructor(private http: HttpClient) {}
 
-  createOrderItem(orderItem: any): Observable<OrderItems> {
-    const url = `${this.baseUrl}/orderItems`;
-    return this.http.post<OrderItems>(url, orderItem);
+  createPedidoProduct(pedidoProduct: any): Observable<any> {
+    const url = `${this.baseUrl}`;
+    return this.http.post<any>(url, pedidoProduct);
   }
 }

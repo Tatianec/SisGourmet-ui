@@ -10,24 +10,30 @@
         <p-table [value]="pedidos" [rows]="10">
           <ng-template pTemplate="header">
             <tr>
-              <!-- <th>ID</th> -->
               <th>Data</th>
               <th>Funcionário</th>
               <th>Mesa</th>
               <th>Total</th>
               <th>Observações</th>
+              <th>Produtos</th> <!-- Nova coluna para os produtos -->
               <th>Ações</th>
             </tr>
           </ng-template>
 
           <ng-template pTemplate="body" let-pedido>
             <tr>
-              <!-- <td>{{ pedido.id }}</td> -->
               <td>{{ pedido.date }}</td>
               <td>{{ getEmployeeName(pedido.employee_id) }}</td>
               <td>{{ pedido.desk_id }}</td>
               <td>{{ pedido.total }}</td>
               <td>{{ pedido.observation }}</td>
+              <td>
+                <ul>
+                  <li *ngFor="let produto of pedido.products">
+                    {{ produto.id_product.name }} ({{ produto.qtd_sold }})
+                  </li>
+                </ul>
+              </td>
               <td>
                 <p-button (click)="deletePedido(pedido)">
                   <i class="pi pi-trash"></i>

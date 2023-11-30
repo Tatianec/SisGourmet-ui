@@ -34,7 +34,7 @@ import { AddPedidoComponent } from './pedido/add-pedido/add-pedido.component';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DashboardComponent } from './home/dashboard/dashboard.component';
 import { HeaderComponent } from './header/header.component';
-import { AddProdutoPedidoComponent } from './pedido/add-produto-pedido/add-produto-pedido.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -54,7 +54,6 @@ import { AddProdutoPedidoComponent } from './pedido/add-produto-pedido/add-produ
     AddPedidoComponent,
     DashboardComponent,
     HeaderComponent,
-    AddProdutoPedidoComponent,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +74,7 @@ import { AddProdutoPedidoComponent } from './pedido/add-produto-pedido/add-produ
     TableModule,
     CheckboxModule,
     DialogModule,
+    DropdownModule,
 
   ],
   providers: [EmployeeService, MessageService],
