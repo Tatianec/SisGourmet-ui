@@ -11,14 +11,24 @@ import { AuthGuard } from './authguard/authguard.component';
 import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
+  // {path: '', pathMatch: 'full', redirectTo: 'login'},
+  // {path: 'login', component: LoginComponent},
+  // {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  // {path: 'employee', component: ListEmployeeComponent, canActivate: [AuthGuard]},
+  // {path: 'product', component: ListProductComponent, canActivate: [AuthGuard]  },
+  // {path: 'desk', component: ListDeskComponent, canActivate: [AuthGuard]},
+  // {path: 'orders', component: ListaPedidosComponent, canActivate: [AuthGuard]},
+  // {path: 'addPedido', component: AddPedidoComponent, canActivate: [AuthGuard]},
+  // {path: 'register', component: RegisterComponent}
+
   {path: '', pathMatch: 'full', redirectTo: 'login'},
   {path: 'login', component: LoginComponent},
-  {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
-  {path: 'employee', component: ListEmployeeComponent, canActivate: [AuthGuard]},
-  {path: 'product', component: ListProductComponent, canActivate: [AuthGuard]  },
-  {path: 'desk', component: ListDeskComponent, canActivate: [AuthGuard]},
-  {path: 'orders', component: ListaPedidosComponent, canActivate: [AuthGuard]},
-  {path: 'addPedido', component: AddPedidoComponent, canActivate: [AuthGuard]},
+  {path: 'home', component: HomeComponent},
+  {path: 'employee', component: ListEmployeeComponent},
+  {path: 'product', component: ListProductComponent},
+  {path: 'desk', component: ListDeskComponent},
+  {path: 'orders', component: ListaPedidosComponent},
+  {path: 'addPedido', component: AddPedidoComponent},
   {path: 'register', component: RegisterComponent}
 ];
 

@@ -16,11 +16,10 @@ export class ListProductComponent {
     description: '',
     qtd_items: 0,
     total: 0,
-  }; 
+  };
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-    this.atualizarProdutos();
 
     this.productService.onProdutoAdicionado().subscribe(() => {
       this.atualizarProdutos();

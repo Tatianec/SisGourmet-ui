@@ -4,6 +4,7 @@ import { PedidoService } from '../../services/pedido.service';
 import { Employee } from 'src/app/models/employee.model';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { DialogService } from 'primeng/dynamicdialog';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-lista-pedidos',
@@ -12,7 +13,6 @@ import { DialogService } from 'primeng/dynamicdialog';
   providers: [DialogService],
 })
 export class ListaPedidosComponent implements OnInit {
-
   pedidos: Pedido[] = [];
   employees: Employee[] = [];
   display: boolean = false;
@@ -22,7 +22,8 @@ export class ListaPedidosComponent implements OnInit {
     private pedidoService: PedidoService,
     private employeeService: EmployeeService,
     private dialogService: DialogService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit(): void {
@@ -31,7 +32,7 @@ export class ListaPedidosComponent implements OnInit {
   }
 
   getEmployeeName(employeeId: number): string {
-    const employee = this.employees.find(emp => emp.id === employeeId);
+    const employee = this.employees.find((emp) => emp.id === employeeId);
     return employee ? employee.name : 'N/A';
   }
 
@@ -50,6 +51,7 @@ export class ListaPedidosComponent implements OnInit {
       },
       (error) => console.error('Erro ao carregar pedidos:', error)
     );
+    this.cdr.detectChanges();
   }
 
   onPedidoAdded() {
@@ -83,5 +85,17 @@ export class ListaPedidosComponent implements OnInit {
 
   closeDialog() {
     this.display = false;
+  }
+
+  formatarData(data: string | null): string {
+    if (!data) {
+      return '';
+    }
+
+    const date = new Date(data);
+
+    date.setUTCDate(date.getUTCDate() + 1);
+
+    return this.datePipe.transform(date, 'dd/MM/yyyy') || '';
   }
 }

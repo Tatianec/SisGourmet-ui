@@ -47,27 +47,30 @@ export class AddPedidoComponent implements OnInit {
     this.loadDesks();
     this.loadProducts();
 
-    this.pedidoForm.get('productId')?.valueChanges
-    .pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((productId: number) => this.productService.getProductById(productId))
-    )
-    .subscribe(
-      (selectedProduct: Product | undefined) => {
-        if (selectedProduct) {
-          this.pedidoForm.patchValue({ productTotal: selectedProduct.total });
+    this.pedidoForm
+      .get('productId')
+      ?.valueChanges.pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap((productId: number) =>
+          this.productService.getProductById(productId)
+        )
+      )
+      .subscribe(
+        (selectedProduct: Product | undefined) => {
+          if (selectedProduct) {
+            this.pedidoForm.patchValue({ productTotal: selectedProduct.total });
+          }
+        },
+        (error) => {
+          console.error('Erro ao obter detalhes do produto:', error);
         }
-      },
-      error => {
-        console.error('Erro ao obter detalhes do produto:', error);
-      }
-    );
-  
+      );
   }
 
   initializeForm(): void {
-    const defaultEmployeeId = this.employees.length > 0 ? this.employees[0].id : null;
+    const defaultEmployeeId =
+      this.employees.length > 0 ? this.employees[0].id : null;
     const defaultDeskId = this.desks.length > 0 ? this.desks[0].id : null;
 
     this.pedidoForm = this.fb.group({
@@ -85,16 +88,21 @@ export class AddPedidoComponent implements OnInit {
 
   updateProductTotal(): void {
     const selectedProductId = this.pedidoForm.get('productId')?.value;
-  
-    const selectedProduct = this.products.find(product => product.id === Number(selectedProductId));
-    
+
+    const selectedProduct = this.products.find(
+      (product) => product.id === Number(selectedProductId)
+    );
+
     if (selectedProduct) {
       this.pedidoForm.get('productTotal')?.setValue(selectedProduct.total);
     } else {
-      console.error('Product not found for the selected ID:', selectedProductId);
+      console.error(
+        'Product not found for the selected ID:',
+        selectedProductId
+      );
     }
   }
-  
+
   get productQuantities(): FormArray {
     return this.pedidoForm.get('productQuantities') as FormArray;
   }
@@ -141,36 +149,39 @@ export class AddPedidoComponent implements OnInit {
 
       const newPedido: Pedido = {
         ...newPedidoWithoutProducts,
-        date: this.formatDate(this.pedidoForm.value.date),
+        // date: this.formatDate(this.pedidoForm.value.date),
       };
 
-      this.pedidoService.addPedido(newPedido).subscribe(
-        (response) => {
-          const pedidoId = response.id;
+      this.pedidoService.addPedido(newPedido).subscribe((response) => {
+        const pedidoId = response.id;
 
-          if (pedidoId !== undefined) {
+        if (pedidoId !== undefined) {
+          this.addProductsToPedido(pedidoId, productIds);
 
-            this.addProductsToPedido(pedidoId, productIds);
-
-            console.log('Pedido adicionado com sucesso!', response);
-            this.pedidoAdded.emit();
-            this.limparProdutosTemporarios(); 
-            alert('Pedido adicionado com sucesso!');
-          } else {
-            console.error(
-              'Erro ao obter ID do pedido na resposta do servidor.'
-            );
-            alert('Erro ao adicionar pedido. Por favor, tente novamente.');
-          }
-        },
-        (error) => {
-          console.error('Erro ao adicionar pedido:', error);
+          console.log('Pedido adicionado com sucesso!', response);
+          this.pedidoAdded.emit();
+          this.limparProdutosTemporarios();
+          this.resetForm(); // Adicione esta linha para resetar o formulário
+          alert('Pedido adicionado com sucesso!');
+        } else {
+          console.error('Erro ao obter ID do pedido na resposta do servidor.');
           alert('Erro ao adicionar pedido. Por favor, tente novamente.');
         }
-      );
+      });
     } else {
       alert('Por favor, preencha todos os campos do formulário corretamente.');
     }
+  }
+
+  resetForm(): void {
+    this.pedidoForm.reset({
+      date: new Date().toISOString().split('T')[0],
+      employee_id: this.employees.length > 0 ? this.employees[0].id : null,
+      desk_id: this.desks.length > 0 ? this.desks[0].id : null,
+    });
+
+    this.produtosTemporarios = [];
+    this.atualizarTotalNoFormulario();
   }
 
   addProductsToPedido(pedidoId: number, productIds: FormArray): void {
@@ -223,7 +234,14 @@ export class AddPedidoComponent implements OnInit {
     const productTotalControl = this.pedidoForm.get('productTotal');
     const quantityControl = this.pedidoForm.get('quantity');
 
-    if (productIdControl && productTotalControl && quantityControl) {
+    if (
+      productIdControl &&
+      productIdControl.value !== null &&
+      productTotalControl &&
+      productTotalControl.value !== null &&
+      quantityControl &&
+      quantityControl.value !== null
+    ) {
       const novoProduto = {
         nome: productIdControl.value,
         preco: productTotalControl.value,
@@ -244,18 +262,22 @@ export class AddPedidoComponent implements OnInit {
       productIdControl.updateValueAndValidity();
 
       this.atualizarTotalNoFormulario();
+    } else {
+      alert('Preencha todos os campos do produto antes de adicionar.');
     }
   }
-  
+
   limparProdutosTemporarios(): void {
     this.produtosTemporarios = [];
     this.atualizarTotalNoFormulario();
   }
 
-  formatDate(date: Date): string {
-    const d = new Date(date);
-    return `${d.getDate() + 1}/${d.getMonth() + 1}/${d.getFullYear()}`;
-  }
+  // formatDate(date: Date): string {
+  //   console.log(date);
+
+  //   const d = new Date(date);
+  //   return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
+  // }
 
   get productIds() {
     return this.pedidoForm.get('productIds');
@@ -272,5 +294,4 @@ export class AddPedidoComponent implements OnInit {
       0
     );
   }
- 
 }

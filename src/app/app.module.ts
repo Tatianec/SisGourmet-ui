@@ -36,6 +36,7 @@ import { DashboardComponent } from './home/dashboard/dashboard.component';
 import { HeaderComponent } from './header/header.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { RegisterComponent } from './register/register.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,7 @@ import { RegisterComponent } from './register/register.component';
     DropdownModule,
 
   ],
-  providers: [EmployeeService, MessageService],
+  providers: [EmployeeService, MessageService, DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

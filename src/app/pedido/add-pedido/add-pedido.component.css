@@ -99,12 +99,10 @@ button:hover {
   margin-top: 20px;
 }
 
-.btn-add-product{
-  width: 50%
+/* Adicione estas regras de estilo ao seu arquivo CSS ou SCSS */
+.disabled-input {
+  background-color: #f8f8f8; /* Cor de fundo quando desativado */
+  color: #555; /* Cor do texto quando desativado */
+  cursor: not-allowed; /* Cursor indicando que o campo está desativado */
 }
 
-/* Adicione esta classe no seu arquivo de estilo CSS */
-.disabled-date {
-  background-color: #e4e4e4; /* Cor de fundo para indicar desabilitado */
-  pointer-events: none; /* Impede a interação do mouse */
-}

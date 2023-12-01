@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Pedido } from '../models/pedido.model';
 import { AuthService } from './auth.service';
+import { Product } from '../models/product.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +14,10 @@ export class PedidoService {
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   getCurrentUserId(): number | null {
-    return this.authService.getUserId();
+    const userId = this.authService.getUserId();
+    return userId !== undefined ? userId : null;
   }
+
 
   getPedidos(): Observable<Pedido[]> {
     return this.http.get<Pedido[]>(this.baseUrl);
@@ -29,6 +32,8 @@ export class PedidoService {
     const url = `${this.baseUrl}`;
     return this.http.post<Pedido>(url, pedido);
   }
+
+
 
   deletePedido(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);

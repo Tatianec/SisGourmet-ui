@@ -22,7 +22,7 @@
 
           <ng-template pTemplate="body" let-pedido>
             <tr>
-              <td>{{ pedido.date }}</td>
+              <td>{{ formatarData(pedido.date) }}</td>
               <td>{{ getEmployeeName(pedido.employee_id) }}</td>
               <td>{{ pedido.desk_id }}</td>
               <td>{{ pedido.total }}</td>

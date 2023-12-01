@@ -7,7 +7,8 @@
     <div class="form-group" class="row">
       <div class="col">
         <label for="date">Data:</label>
-        <input type="date" id="date" formControlName="date" class="form-control" readonly>
+        <input type="date" id="date" formControlName="date" class="form-control" readonly
+          style="background-color: rgb(240, 240, 240);">
       </div>
 
       <!-- Funcionário -->
@@ -25,12 +26,14 @@
           <option *ngFor="let desk of desks" [value]="desk.id">Mesa {{ desk.id }}</option>
         </select>
       </div>
-    </div>
 
-    <!-- Total -->
-    <div class="form-group">
-      <label for="total">Total:</label>
-      <input type="number" id="total" formControlName="total" class="form-control">
+      <!-- Total -->
+      <div class="form-group">
+        <label for="total">Total:</label>
+        <input type="number" placeholder="0" id="total" formControlName="total" class="form-control" readonly
+          style="background-color: rgb(240, 240, 240);">
+      </div>
+
     </div>
 
     <!-- Observação -->
@@ -44,53 +47,55 @@
 
     <div class="product-info-container">
       <!-- Produtos e Quantidades -->
-      <div class="form-group">
-        <div class="form-group">
+      <div class="form-group" class="row">
+        <div class="col">
           <label for="productId">Produto:</label>
           <select id="productId" formControlName="productId" class="form-control" (change)="updateProductTotal()">
             <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
           </select>
         </div>
 
-      <!-- Preço -->
-      <div class="form-group">
-        <label for="productTotal">Preço:</label>
-        <input type="number" id="productTotal" placeholder="Preço" formControlName="productTotal" class="form-control">
-      </div>
-
         <!-- Quantidade -->
-        <div class="form-group">
+        <div class="col">
           <label for="quantity">Quantidade:</label>
-          <input type="number" id="quantity" placeholder="Quantidade" formControlName="quantity" class="form-control">
+          <input type="number" id="quantity" placeholder="0" formControlName="quantity" class="form-control">
         </div>
-        <button type="button" (click)="adicionarProduto()">Adicionar Produto</button>
+
+        <!-- Preço -->
+        <div class="col">
+          <label for="productTotal">Preço:</label>
+          <input type="number" id="productTotal" placeholder="0" formControlName="productTotal" class="form-control"
+            readonly style="background-color: rgb(240, 240, 240);">
+        </div>
+
+        <div class="btn-add-product">
+          <button type="button" (click)="adicionarProduto()">Adicionar Produto</button>
+        </div>
+
       </div>
     </div>
 
-    <div class="product-list-container">
-      <!-- Lista de Produtos Temporários -->
-      <div class="grid-container" *ngIf="produtosTemporarios.length > 0">
-        <h3>Produtos Adicionados:</h3>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Produto</th>
-              <th>Preço</th>
-              <th>Quantidade</th>
-              <th>Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let produto of produtosTemporarios">
-              <td>{{ produto.nome }}</td>
-              <td>{{ produto.preco }}</td>
-              <td>{{ produto.quantidade }}</td>
-              <td>{{ produto.preco * produto.quantidade }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <!-- Lista de Produtos Temporários -->
+    <div class="grid-container" *ngIf="produtosTemporarios.length > 0">
+      <h3>Produtos Adicionados:</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Produto</th>
+            <th>Preço</th>
+            <th>Quantidade</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let produto of produtosTemporarios">
+            <td>{{ produto.nome }}</td>
+            <td>{{ produto.preco }}</td>
+            <td>{{ produto.quantidade }}</td>
+            <td>{{ produto.preco * produto.quantidade }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
   </form>
-
