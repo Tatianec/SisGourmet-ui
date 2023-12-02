@@ -5,4 +5,5 @@ export interface Product {
   description: string;
   total: number;
   qtd_sold?: number; 
+  estoque?: boolean;
 }

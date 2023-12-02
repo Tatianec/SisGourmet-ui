@@ -76,4 +76,15 @@ export class ProductService {
     console.error('Erro no serviço ProductService', error);
     return throwError(error);
   }
+
+  updateProductQuantity(productId: number, quantity: number): Observable<Product> {
+    const url = `${this.baseUrl}/${productId}/updateQtdItems`;
+    const params = { qtdItems: quantity.toString() };
+  
+    return this.http.patch<Product>(url, null, { params }).pipe(
+      tap(() => this.produtoAdicionadoSubject.next()),
+      catchError(this.handleError)
+    );
+  }
+  
 }

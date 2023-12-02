@@ -41,8 +41,10 @@
       <tr>
         <!-- <th>Id</th> -->
         <th>Name</th>
-        <th>Description</th>
-        <th>Total</th>
+        <th>Descrição</th>
+        <th>Preço</th>
+        <th>Qtd Disponível</th>
+        <th>Estoque</th>
         <th>Ações</th>
       </tr>
     </ng-template>
@@ -53,7 +55,9 @@
         <!-- <td>{{ product.id }}</td> -->
         <td>{{ product.name }}</td>
         <td>{{ product.description }}</td>
-        <td>{{ product.total }}</td>
+        <td>R$ {{ product.total }}</td>
+        <td>{{ product.qtd_items }}</td>
+        <td>{{ getEstoqueStatus(product.estoque) }}</td>
         <td>
           <!-- Botão para abrir o p-dialog -->
           <p-button (click)="openEditDialog(product)">

@@ -194,7 +194,7 @@ export class AddPedidoComponent implements OnInit {
         if (productControl instanceof FormGroup) {
           const productId = productControl.get('productId')?.value;
           const quantity = productControl.get('quantity')?.value;
-
+  
           if (productId !== undefined && quantity !== undefined) {
             const pedidoProduct = {
               id_pedido: {
@@ -203,10 +203,9 @@ export class AddPedidoComponent implements OnInit {
               id_product: {
                 id: productId,
               },
-
               qtd_sold: quantity,
             };
-
+  
             this.pedidoProductService
               .createPedidoProduct(pedidoProduct)
               .subscribe(
@@ -215,12 +214,22 @@ export class AddPedidoComponent implements OnInit {
                     'Produto adicionado ao pedido com sucesso!',
                     response
                   );
+  
+                  this.productService
+                    .updateProductQuantity(productId, quantity)
+                    .subscribe(
+                      () => {
+                        console.log('Quantidade de itens do produto atualizada com sucesso.');
+                      },
+                      (error) => {
+                        console.error('Erro ao atualizar quantidade de itens do produto:', error);
+                        alert('Erro ao atualizar quantidade de itens do produto. Por favor, tente novamente.');
+                      }
+                    );
                 },
                 (error) => {
                   console.error('Erro ao adicionar produto ao pedido:', error);
-                  alert(
-                    'Erro ao adicionar produto ao pedido. Por favor, tente novamente.'
-                  );
+                  alert('Erro ao adicionar produto ao pedido. Por favor, tente novamente.');
                 }
               );
           }
@@ -228,6 +237,7 @@ export class AddPedidoComponent implements OnInit {
       }
     );
   }
+  
 
   adicionarProduto(): void {
     const productIdControl = this.pedidoForm.get('productId');

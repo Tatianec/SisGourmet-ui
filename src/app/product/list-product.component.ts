@@ -74,6 +74,10 @@ export class ListProductComponent {
       );
   }
 
+  getEstoqueStatus(estoque: boolean): string {
+    return estoque ? 'Sim' : 'Não';
+  }
+
   // cancelEdit(): void {
   //   this.visible = false;
   // }

@@ -20,14 +20,19 @@ export class AddProductComponent implements OnInit {
     this.productForm = this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
-      total: [0, Validators.required]
+      total: [0, Validators.required],
+      estoque: [false],
+      qtd_items: [0, Validators.required],
     });
   }
 
   salvarProduto() {
     if (this.productForm.valid) {
-      const productData = this.productForm.value as Product;
-      console.log(productData);
+      const productData = {
+        ...this.productForm.value,
+        estoque: this.productForm.get('estoque')?.value || false
+      } as Product;
+
       this.productService.criarProduto(productData).subscribe(
         () => {
           console.log('Produto criado com sucesso.');
@@ -39,4 +44,5 @@ export class AddProductComponent implements OnInit {
       );
     }
   }
+  
 }
