@@ -87,4 +87,8 @@ export class ProductService {
     );
   }
   
+  hasSufficientStock(productId: number, quantity: number): Observable<boolean> {
+    const url = `${this.baseUrl}/${productId}/hasSufficientStock?quantity=${quantity}`;
+    return this.http.get<boolean>(url);
+  }
 }

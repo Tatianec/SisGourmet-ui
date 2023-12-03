@@ -46,7 +46,7 @@ export class AddPedidoComponent implements OnInit {
     this.loadEmployees();
     this.loadDesks();
     this.loadProducts();
-
+  
     this.pedidoForm
       .get('productId')
       ?.valueChanges.pipe(
@@ -60,6 +60,13 @@ export class AddPedidoComponent implements OnInit {
         (selectedProduct: Product | undefined) => {
           if (selectedProduct) {
             this.pedidoForm.patchValue({ productTotal: selectedProduct.total });
+            
+            const availableQuantity = selectedProduct.qtd_items;
+            const requestedQuantity = this.pedidoForm.get('quantity')?.value;
+  
+            if (requestedQuantity > availableQuantity) {
+              alert('Quantidade solicitada maior do que disponível em estoque.');
+            }
           }
         },
         (error) => {
@@ -67,6 +74,7 @@ export class AddPedidoComponent implements OnInit {
         }
       );
   }
+  
 
   initializeForm(): void {
     const defaultEmployeeId =
@@ -133,7 +141,7 @@ export class AddPedidoComponent implements OnInit {
   onSubmit(): void {
     if (this.pedidoForm.valid) {
       const productIds = this.pedidoForm.get('productIds') as FormArray;
-
+  
       this.produtosTemporarios.forEach((produtoTemporario) => {
         productIds.push(
           this.fb.group({
@@ -143,25 +151,25 @@ export class AddPedidoComponent implements OnInit {
           })
         );
       });
-
+  
       const { productId, productTotal, quantity, ...newPedidoWithoutProducts } =
         this.pedidoForm.value;
-
+  
       const newPedido: Pedido = {
         ...newPedidoWithoutProducts,
         // date: this.formatDate(this.pedidoForm.value.date),
       };
-
+  
       this.pedidoService.addPedido(newPedido).subscribe((response) => {
         const pedidoId = response.id;
-
+  
         if (pedidoId !== undefined) {
           this.addProductsToPedido(pedidoId, productIds);
-
+  
           console.log('Pedido adicionado com sucesso!', response);
           this.pedidoAdded.emit();
           this.limparProdutosTemporarios();
-          this.resetForm(); // Adicione esta linha para resetar o formulário
+          this.resetForm();
           alert('Pedido adicionado com sucesso!');
         } else {
           console.error('Erro ao obter ID do pedido na resposta do servidor.');
@@ -243,7 +251,7 @@ export class AddPedidoComponent implements OnInit {
     const productIdControl = this.pedidoForm.get('productId');
     const productTotalControl = this.pedidoForm.get('productTotal');
     const quantityControl = this.pedidoForm.get('quantity');
-
+  
     if (
       productIdControl &&
       productIdControl.value !== null &&
@@ -257,21 +265,57 @@ export class AddPedidoComponent implements OnInit {
         preco: productTotalControl.value,
         quantidade: quantityControl.value,
       };
-
-      this.produtosTemporarios.push(novoProduto);
-
-      productIdControl.reset();
-      productTotalControl.reset();
-      quantityControl.reset();
-
-      productIdControl.setValue(null);
-      productIdControl.markAsTouched();
-
-      this.updateProductTotal();
-
-      productIdControl.updateValueAndValidity();
-
-      this.atualizarTotalNoFormulario();
+  
+      const productId = parseInt(novoProduto.nome, 10);
+      const quantity = novoProduto.quantidade;
+  
+      this.productService.getProductById(productId).subscribe(
+        (selectedProduct: Product | undefined) => {
+          if (selectedProduct) {
+            if (selectedProduct.estoque) {
+              const availableQuantity = selectedProduct.qtd_items;
+  
+              if (quantity > availableQuantity) {
+                alert('Quantidade indisponível em estoque!');
+                this.pedidoForm.get('quantity')?.setValue(availableQuantity);
+              } else {
+                this.produtosTemporarios.push(novoProduto);
+  
+                productIdControl.reset();
+                productTotalControl.reset();
+                quantityControl.reset();
+  
+                productIdControl.setValue(null);
+                productIdControl.markAsTouched();
+  
+                this.updateProductTotal();
+  
+                productIdControl.updateValueAndValidity();
+  
+                this.atualizarTotalNoFormulario();
+              }
+            } else {
+              this.produtosTemporarios.push(novoProduto);
+  
+              productIdControl.reset();
+              productTotalControl.reset();
+              quantityControl.reset();
+  
+              productIdControl.setValue(null);
+              productIdControl.markAsTouched();
+  
+              this.updateProductTotal();
+  
+              productIdControl.updateValueAndValidity();
+  
+              this.atualizarTotalNoFormulario();
+            }
+          }
+        },
+        (error) => {
+          console.error('Erro ao obter detalhes do produto:', error);
+        }
+      );
     } else {
       alert('Preencha todos os campos do produto antes de adicionar.');
     }
