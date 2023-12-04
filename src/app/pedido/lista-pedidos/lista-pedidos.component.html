@@ -15,8 +15,10 @@
               <th>Mesa</th>
               <th>Total</th>
               <th>Observações</th>
-              <th>Produtos</th> <!-- Nova coluna para os produtos -->
+              <th>Produtos</th> 
+              <th>Status</th>
               <th>Ações</th>
+              <th>Finalizar pedido</th>
             </tr>
           </ng-template>
 
@@ -34,11 +36,20 @@
                   </li>
                 </ul>
               </td>
+              <td>{{ pedido.status }}</td>
               <td>
                 <p-button (click)="deletePedido(pedido)">
                   <i class="pi pi-trash"></i>
                 </p-button>
               </td>
+              <td>
+                <div *ngIf="pedido.status !== 'Finalizado'">
+                  <p-button icon="pi pi-check" class="custom-button" (click)="atualizarStatus(pedido)">
+  
+                  </p-button>
+                </div>
+              </td>             
+              
             </tr>
           </ng-template>
         </p-table>

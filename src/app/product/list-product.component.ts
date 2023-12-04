@@ -20,7 +20,7 @@ export class ListProductComponent {
   constructor(private productService: ProductService) {}
 
   ngOnInit(): void {
-
+    this.atualizarProdutos();
     this.productService.onProdutoAdicionado().subscribe(() => {
       this.atualizarProdutos();
     });

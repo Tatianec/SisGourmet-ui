@@ -10,5 +10,7 @@ export interface Pedido {
   desk_id: number;
   total: number;
   observation: string;
+  status: String;
   products: PedidoProduct[];
+  statusChecked?: boolean;
 }

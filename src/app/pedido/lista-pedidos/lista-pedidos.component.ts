@@ -98,4 +98,21 @@ export class ListaPedidosComponent implements OnInit {
 
     return this.datePipe.transform(date, 'dd/MM/yyyy') || '';
   }
+
+  atualizarStatus(pedido: Pedido): void {
+    if (confirm('Tem certeza que deseja marcar este pedido como Finalizado?')) {
+      const statusFinalizado = 'Finalizado';
+      pedido.status = statusFinalizado;
+  
+      this.pedidoService.updatePedido(pedido.id!, pedido).subscribe(
+        (updatedPedido) => {
+          console.log('Pedido atualizado com sucesso:', updatedPedido);
+          this.loadPedidos(); 
+        },
+        (error) => {
+          console.error('Erro ao atualizar o status do pedido:', error);
+        }
+      );
+    }
+  }
 }
