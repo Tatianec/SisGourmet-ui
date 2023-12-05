@@ -1,15 +1,15 @@
-<div class="container">
-  <h2>Cadastro de Funcionário</h2>
+<p-card header="Registrar" [style]="{ width: '360px' }" class="center-card">
+
   <form [formGroup]="employeeForm">
-        <div class="p-field">
-          <label for="name">Nome</label>
-          <input type="text" id="name" name="name" formControlName="name" pInputText required>
-        </div>
-        <div class="p-field">
-          <label for="email">Email</label>
-          <input type="text" id="email" name="email" formControlName="email" pInputText required>
-        </div>
-      <div class="p-field">
+    <div class="p-field">
+      <label for="name">Nome</label>
+      <input type="text" id="name" name="name" formControlName="name" pInputText required>
+    </div>
+    <div class="p-field">
+      <label for="email">Email</label>
+      <input type="text" id="email" name="email" formControlName="email" pInputText required>
+    </div>
+    <div class="p-field">
       <label for="password">Senha</label>
       <input type="password" id="password" name="password" formControlName="password" pInputText required>
     </div>
@@ -18,6 +18,10 @@
       <label for="manager"> Gerente</label>
     </div>
     <button pButton type="submit" (click)="onRegister()" label="Registrar" class="p-button"></button>
-    <!-- <button type="submit" pButton label="Salvar"></button> -->
+    <hr>
   </form>
-</div>
+  <p>
+    Deseja logar? <a [routerLink]="['/login']">Login</a>
+  </p>
+
+</p-card>

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Pedido } from '../models/pedido.model';
@@ -8,6 +8,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class PedidoService {
+  pedidoAdded: EventEmitter<Pedido> = new EventEmitter();
   private baseUrl = 'http://localhost:8080/pedido';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
@@ -32,6 +33,7 @@ export class PedidoService {
 
   updatePedido(id: number, pedido: Pedido): Observable<Pedido> {
     const url = `${this.baseUrl}/${id}`;
+    this.pedidoAdded.emit(pedido);
     return this.http.put<Pedido>(url, pedido);
   }
 

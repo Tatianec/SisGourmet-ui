@@ -4,7 +4,7 @@ import { Observable, Subject, map, tap } from 'rxjs';
 import { Desk } from '../models/desk.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DeskService {
   private apiUrl = 'http://localhost:8080/desk';
@@ -18,14 +18,14 @@ export class DeskService {
 
   checkIfNumberExists(nroDesk: number): Observable<boolean> {
     return this.getDesks().pipe(
-      map((desks: Desk[]) => desks.some(desk => desk.nro_desk === nroDesk))
+      map((desks: Desk[]) => desks.some((desk) => desk.nro_desk === nroDesk))
     );
   }
 
   createDesk(deskData: Desk): Observable<Desk> {
-    return this.http.post<Desk>(this.apiUrl, deskData).pipe(
-      tap(() => this.deskChangeSubject.next())
-    );
+    return this.http
+      .post<Desk>(this.apiUrl, deskData)
+      .pipe(tap(() => this.deskChangeSubject.next()));
   }
 
   onDeskChange(): Observable<void> {
@@ -33,16 +33,14 @@ export class DeskService {
   }
 
   deleteDesk(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
-      tap(() => this.deskChangeSubject.next())
-    );
+    return this.http
+      .delete<void>(`${this.apiUrl}/${id}`)
+      .pipe(tap(() => this.deskChangeSubject.next()));
   }
 
   updateDesk(id: number, deskData: Desk): Observable<void> {
-    return this.http.put<void>(`${this.apiUrl}/${id}`, deskData).pipe(
-      tap(() => this.deskChangeSubject.next())
-    );
+    return this.http
+      .put<void>(`${this.apiUrl}/${id}`, deskData)
+      .pipe(tap(() => this.deskChangeSubject.next()));
   }
-
-
 }

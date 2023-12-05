@@ -1,8 +1,8 @@
-/* Estilo do formulário */
 .container {
   max-width: 600px;
   margin: auto;
   padding: 20px;
+  margin-top: 50px;
   background-color: #f8f9fa;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -93,16 +93,13 @@ button:hover {
   color: #fff;
 }
 
-/* Adicionando um espaçamento entre o botão e o campo Quantidade */
 .product-info-container .form-group button,
 .product-list-container .form-group button {
   margin-top: 20px;
 }
 
-/* Adicione estas regras de estilo ao seu arquivo CSS ou SCSS */
 .disabled-input {
-  background-color: #f8f8f8; /* Cor de fundo quando desativado */
-  color: #555; /* Cor do texto quando desativado */
-  cursor: not-allowed; /* Cursor indicando que o campo está desativado */
+  background-color: #f8f8f8;
+  color: #555;
+  cursor: not-allowed;
 }
-

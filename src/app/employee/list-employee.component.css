@@ -3,39 +3,45 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-top: 50px;
+  margin-right: 150px;
+  gap: 20px;
+  margin-left: 50px;
 }
 
 .table-container p-table p-button {
-  margin-left: 40px; /* Adicione o espaçamento horizontal desejado entre os botões */
+  margin-left: 10px;
 }
 
 h2 {
-  margin-bottom: 20px; /* Espaço entre o título e a tabela */
+  margin-bottom: 20px;
 }
 
 p-table {
-  width: 100%;
-  max-width: 50rem;
   border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-p-table th, p-table td {
-  border: 1px solid #bdbdbd; /* Cor da borda azul */
-  padding: 8px;
+p-table th,
+p-table td {
+  border: 1px solid #e0e0e0;
   text-align: left;
 }
 
-p-table tr {
-  background-color: #ffffff; /* Fundo branco */
+p-table tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
 p-table th {
-  background-color: #2d76c4; /* Fundo azul para cabeçalho */
+  background-color: #3498db;
   color: white;
 }
 
-
+p-table tr:hover {
+  background-color: #ecf0f1;
+  transition: background-color 0.3s ease;
+}
 
 .dialog-form {
   display: flex;
@@ -62,7 +68,45 @@ p-table th {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 400px; /* Ajuste conforme necessário */
+  width: 150px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+p-button {
+  margin-left: 20px;
+}
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  margin-bottom: 5px;
+}
+
+.form-control {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 400px;
 }
 
 .form-actions {
@@ -96,7 +140,7 @@ p-button {
 }
 
 .form-control[type="checkbox"]::before {
-  content: '\2713';
+  content: "\2713";
   font-size: 16px;
   color: #4caf50;
   position: absolute;
@@ -111,9 +155,7 @@ p-button {
   opacity: 1;
 }
 
-
 label[for="editManager"] {
   font-size: 16px;
   color: #333;
 }
-

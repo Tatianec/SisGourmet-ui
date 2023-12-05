@@ -13,35 +13,32 @@ export class EmployeeService {
   constructor(private http: HttpClient) {}
 
   getEmployees(): Observable<Employee[]> {
-    return this.http.get<Employee[]>(this.apiUrl)
-  .pipe(
-    catchError((error) => {
-      console.error('Error loading employees:', error);
-      return throwError('Unable to load employees. Please try again later.');
-    })
-  );
-
+    return this.http.get<Employee[]>(this.apiUrl).pipe(
+      catchError((error) => {
+        console.error('Error loading employees:', error);
+        return throwError('Unable to load employees. Please try again later.');
+      })
+    );
   }
 
   createEmployee(employeeData: Employee): Observable<Employee> {
-    return this.http.post<Employee>(this.apiUrl, employeeData).pipe(
-      tap(() => this.employeeChangeSubject.next())
-    );
+    return this.http
+      .post<Employee>(this.apiUrl, employeeData)
+      .pipe(tap(() => this.employeeChangeSubject.next()));
   }
 
   deleteEmployee(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
-      tap(() => this.employeeChangeSubject.next())
-    );
+    return this.http
+      .delete<void>(`${this.apiUrl}/${id}`)
+      .pipe(tap(() => this.employeeChangeSubject.next()));
   }
-
 
   updateEmployee(id: number, produtoData: Employee): Observable<void> {
     const updateUrl = `${this.apiUrl}/${id}`;
     return this.http.put<void>(updateUrl, produtoData).pipe(
       tap(() => {
         this.employeeChangeSubject.next();
-      }),
+      })
     );
   }
 

@@ -1,4 +1,5 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem, MessageService } from 'primeng/api';
 import { AuthService } from '../services/auth.service';
 
@@ -14,7 +15,7 @@ export class MenuComponent {
   constructor(
     private messageService: MessageService,
     private authService: AuthService,
-    private cdr: ChangeDetectorRef
+    private router: Router
   ) {}
 
   menuItems: MenuItem[] = [
@@ -22,7 +23,7 @@ export class MenuComponent {
     { label: 'Pedidos', icon: 'pi pi-shopping-cart', routerLink: '/orders' },
     { label: 'Produtos', icon: 'pi pi-box', routerLink: '/product' },
     { label: 'Funcionários', icon: 'pi pi-chart-bar', routerLink: '/employee' },
-    { label: 'Logout', icon: 'pi pi-power-off', routerLink: '/login' },
+    { label: 'Logout', icon: 'pi pi-power-off', command: () => this.logout() },
   ];
 
   logout() {
@@ -34,6 +35,15 @@ export class MenuComponent {
       detail: 'Logout realizado com sucesso!',
     });
 
-    this.cdr.detectChanges();
+    this.closeMenu();
+  }
+
+  private closeMenu() {
+    this.sidebarVisible = false;
+  }
+
+  onMenuItemClick(route: string): void {
+    this.router.navigate([route]);
+    this.closeMenu();
   }
 }

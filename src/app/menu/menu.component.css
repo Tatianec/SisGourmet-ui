@@ -14,7 +14,7 @@
 }
 
 .custom-menu a:hover {
-  color: #007bff;
+  color: #3498db;
 }
 
 .menu-item {
@@ -31,5 +31,8 @@
 
 .logout-button {
   position: absolute;
-  bottom: 10px; /* Ajuste conforme necessário */
+  bottom: 10px;
+}
+.p-button {
+  background-color: #3498db;
 }

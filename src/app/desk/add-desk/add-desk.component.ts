@@ -7,7 +7,7 @@ import { DeskService } from 'src/app/services/desk.service';
 @Component({
   selector: 'app-add-desk',
   templateUrl: './add-desk.component.html',
-  styleUrls: ['./add-desk.component.css']
+  styleUrls: ['./add-desk.component.css'],
 })
 export class AddDeskComponent implements OnInit {
   deskForm!: FormGroup;
@@ -31,11 +31,8 @@ export class AddDeskComponent implements OnInit {
     );
   }
 
-
-
   cadastrarMesa() {
     if (this.deskForm.valid) {
-
       const mesaData: Desk = this.deskForm.value as Desk;
       mesaData.available = 1;
 

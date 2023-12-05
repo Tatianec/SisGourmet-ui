@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit } from '@angular/core';
 import { Pedido } from '../../models/pedido.model';
 import { PedidoService } from '../../services/pedido.service';
 import { Employee } from 'src/app/models/employee.model';
@@ -23,12 +23,13 @@ export class ListaPedidosComponent implements OnInit {
     private employeeService: EmployeeService,
     private dialogService: DialogService,
     private cdr: ChangeDetectorRef,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) {}
 
   ngOnInit(): void {
     this.loadPedidos();
     this.loadEmployees();
+
   }
 
   getEmployeeName(employeeId: number): string {
@@ -46,6 +47,8 @@ export class ListaPedidosComponent implements OnInit {
   loadPedidos() {
     this.pedidoService.getPedidos().subscribe(
       (data) => {
+        console.log(data);
+
         this.pedidos = data;
         console.log('Pedidos carregados com sucesso:', data);
       },
@@ -55,8 +58,10 @@ export class ListaPedidosComponent implements OnInit {
   }
 
   onPedidoAdded() {
-    this.loadPedidos();
     this.cdr.detectChanges();
+    setTimeout(() => {
+      this.loadPedidos();
+    }, 500)
   }
 
   deletePedido(pedido: Pedido) {
@@ -67,12 +72,12 @@ export class ListaPedidosComponent implements OnInit {
             this.loadPedidos();
           },
           (error) => {
-            console.error('Erro ao excluir a mesa:', error);
+            console.error('Erro ao excluir o pedido:', error);
           }
         );
       } else {
         console.error(
-          'ID da mesa é undefined. A exclusão não pode ser realizada.'
+          'ID do produto é undefined. A exclusão não pode ser realizada.'
         );
       }
     }
@@ -103,11 +108,11 @@ export class ListaPedidosComponent implements OnInit {
     if (confirm('Tem certeza que deseja marcar este pedido como Finalizado?')) {
       const statusFinalizado = 'Finalizado';
       pedido.status = statusFinalizado;
-  
+
       this.pedidoService.updatePedido(pedido.id!, pedido).subscribe(
         (updatedPedido) => {
           console.log('Pedido atualizado com sucesso:', updatedPedido);
-          this.loadPedidos(); 
+          this.loadPedidos();
         },
         (error) => {
           console.error('Erro ao atualizar o status do pedido:', error);

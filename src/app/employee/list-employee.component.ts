@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { SortEvent } from 'primeng/api';
 import { Employee } from 'src/app/models/employee.model';
 import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
   selector: 'app-list-employee',
   templateUrl: './list-employee.component.html',
-  styleUrls: ['./list-employee.component.css']
+  styleUrls: ['./list-employee.component.css'],
 })
-export class ListEmployeeComponent implements OnInit{
-
+export class ListEmployeeComponent implements OnInit {
   employees: Employee[] = [];
   visible: boolean = false;
   selectedEmployee: Employee = {
@@ -20,9 +20,7 @@ export class ListEmployeeComponent implements OnInit{
     password: '',
   };
 
-
   constructor(private employeeService: EmployeeService) {}
-
 
   ngOnInit(): void {
     this.atualizarFuncionarios();
@@ -39,20 +37,20 @@ export class ListEmployeeComponent implements OnInit{
   }
 
   deleteEmployee(employee: Employee) {
-    if (confirm('Tem certeza que deseja excluir esta mesa?')) {
+    if (confirm('Tem certeza que deseja excluir este funcionário?')) {
       if (employee.id !== undefined) {
         this.employeeService.deleteEmployee(employee.id).subscribe(
           () => {
-            console.log('Employee excluída com sucesso.');
+            console.log('Funcionário excluíd com sucesso.');
             this.atualizarFuncionarios();
           },
           (error) => {
-            console.error('Erro ao excluir a employee:', error);
+            console.error('Erro ao excluir o funcionário:', error);
           }
         );
       } else {
         console.error(
-          'ID da employee é undefined. A exclusão não pode ser realizada.'
+          'ID do funcionário é undefined. A exclusão não pode ser realizada.'
         );
       }
     }
@@ -78,5 +76,4 @@ export class ListEmployeeComponent implements OnInit{
         }
       );
   }
-
 }

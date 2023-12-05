@@ -78,7 +78,6 @@ import { DatePipe } from '@angular/common';
     CheckboxModule,
     DialogModule,
     DropdownModule,
-
   ],
   providers: [EmployeeService, MessageService, DatePipe],
   bootstrap: [AppComponent],

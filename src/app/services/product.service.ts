@@ -5,11 +5,9 @@ import { catchError } from 'rxjs/operators';
 import { Product } from '../models/product.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
-
-
   private baseUrl = 'http://localhost:8080/product';
 
   private produtoAdicionadoSubject = new Subject<void>();
@@ -18,15 +16,13 @@ export class ProductService {
 
   getProductById(id: number): Observable<Product> {
     const getUrl = `${this.baseUrl}/${id}`;
-    return this.http.get<Product>(getUrl).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<Product>(getUrl).pipe(catchError(this.handleError));
   }
 
   listarProdutos(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.baseUrl).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .get<Product[]>(this.baseUrl)
+      .pipe(catchError(this.handleError));
   }
 
   getProdutos(): Observable<Product[]> {
@@ -63,9 +59,9 @@ export class ProductService {
   }
 
   deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
-      tap(() => this.produtoAdicionadoSubject.next())
-    );
+    return this.http
+      .delete<void>(`${this.baseUrl}/${id}`)
+      .pipe(tap(() => this.produtoAdicionadoSubject.next()));
   }
 
   onProdutoAdicionado(): Observable<void> {
@@ -77,16 +73,19 @@ export class ProductService {
     return throwError(error);
   }
 
-  updateProductQuantity(productId: number, quantity: number): Observable<Product> {
+  updateProductQuantity(
+    productId: number,
+    quantity: number
+  ): Observable<Product> {
     const url = `${this.baseUrl}/${productId}/updateQtdItems`;
     const params = { qtdItems: quantity.toString() };
-  
+
     return this.http.patch<Product>(url, null, { params }).pipe(
       tap(() => this.produtoAdicionadoSubject.next()),
       catchError(this.handleError)
     );
   }
-  
+
   hasSufficientStock(productId: number, quantity: number): Observable<boolean> {
     const url = `${this.baseUrl}/${productId}/hasSufficientStock?quantity=${quantity}`;
     return this.http.get<boolean>(url);

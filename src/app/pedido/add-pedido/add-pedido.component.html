@@ -3,7 +3,6 @@
 
   <form [formGroup]="pedidoForm" (ngSubmit)="onSubmit()">
 
-    <!-- Data -->
     <div class="form-group" class="row">
       <div class="col">
         <label for="date">Data:</label>
@@ -11,7 +10,6 @@
           style="background-color: rgb(240, 240, 240);">
       </div>
 
-      <!-- Funcionário -->
       <div class="col">
         <label for="employee">Funcionário:</label>
         <select id="employee" formControlName="employee_id" class="form-control">
@@ -19,7 +17,6 @@
         </select>
       </div>
 
-      <!-- Mesa -->
       <div class="col">
         <label for="desk">Mesa:</label>
         <select id="desk" formControlName="desk_id" class="form-control">
@@ -27,7 +24,6 @@
         </select>
       </div>
 
-      <!-- Total -->
       <div class="form-group">
         <label for="total">Total:</label>
         <input type="number" placeholder="0" id="total" formControlName="total" class="form-control" readonly
@@ -36,7 +32,6 @@
 
     </div>
 
-    <!-- Observação -->
     <div class="form-group">
       <label for="observation">Observações:</label>
       <textarea id="observation" formControlName="observation" class="form-control"></textarea>
@@ -46,7 +41,6 @@
 
 
     <div class="product-info-container">
-      <!-- Produtos e Quantidades -->
       <div class="form-group" class="row">
         <div class="col">
           <label for="productId">Produto:</label>
@@ -54,14 +48,11 @@
             <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
           </select>
         </div>
-
-        <!-- Quantidade -->
         <div class="col">
           <label for="quantity">Quantidade:</label>
           <input type="number" id="quantity" placeholder="0" formControlName="quantity" class="form-control">
         </div>
 
-        <!-- Preço -->
         <div class="col">
           <label for="productTotal">Preço:</label>
           <input type="number" id="productTotal" placeholder="0" formControlName="productTotal" class="form-control"
@@ -75,7 +66,6 @@
       </div>
     </div>
 
-    <!-- Lista de Produtos Temporários -->
     <div class="grid-container" *ngIf="produtosTemporarios.length > 0">
       <h3>Produtos Adicionados:</h3>
       <table class="table">
@@ -99,3 +89,4 @@
     </div>
 
   </form>
+

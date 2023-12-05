@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private pedidoService: PedidoService,
     private productService: ProductService,
-    private employeeService: EmployeeService,
+    private employeeService: EmployeeService
   ) {}
 
   ngOnInit(): void {
@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
         console.error('Erro ao carregar total de pedidos:', error);
       }
     );
-  }  
+  }
 
   loadTotalProdutos(): void {
     this.productService.getProdutos().subscribe(
@@ -58,5 +58,4 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
-  
 }

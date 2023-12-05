@@ -8,7 +8,8 @@
     <div class="p-field">
       <label for="nro_desk">Número da mesa</label>
       <input type="number" id="nro_desk" name="nro_desk" formControlName="nro_desk" pInputText required>
-      <small *ngIf="deskForm.get('nro_desk')?.hasError('duplicateNumber')" class="p-error">Número de mesa já existe.</small>
+      <small *ngIf="deskForm.get('nro_desk')?.hasError('duplicateNumber')" class="p-error">Número de mesa já
+        existe.</small>
     </div>
 
 

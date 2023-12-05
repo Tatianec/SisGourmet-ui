@@ -3,13 +3,13 @@
 .dashboard-container3 {
   padding: 20px;
   width: 100%;
-  height: 200px; /* Defina a altura desejada */
+  height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-left: 400px;
-  background-color: rgb(218, 238, 255);
+  background-color: #34495e;
 }
 
 .dashboard-container2 {
@@ -20,14 +20,14 @@
   margin-left: 200px;
 }
 
-/* Adicione estilos específicos do p-card para torná-lo semelhante a um card do PrimeNG */
 .p-card {
-  width: 70%; /* Ajuste a largura conforme necessário */
+  width: 70%;
   border-radius: 5px;
   box-shadow: 0 8px px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
 }
 
-/* .p-card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-} */
+h1 {
+  color: white;
+  font-size: x-large;
+}

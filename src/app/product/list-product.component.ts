@@ -33,20 +33,20 @@ export class ListProductComponent {
   }
 
   deleteProduct(product: Product) {
-    if (confirm('Tem certeza que deseja excluir esta mesa?')) {
+    if (confirm('Tem certeza que deseja excluir este produto?')) {
       if (product.id !== undefined) {
         this.productService.deleteProduct(product.id).subscribe(
           () => {
-            console.log('Mesa excluída com sucesso.')
+            console.log('Produto excluído com sucesso.');
             this.atualizarProdutos();
           },
           (error: any) => {
-            console.error('Erro ao excluir a mesa:', error);
+            console.error('Erro ao excluir o produto:', error);
           }
         );
       } else {
         console.error(
-          'ID da mesa é undefined. A exclusão não pode ser realizada.'
+          'ID do produto é undefined. A exclusão não pode ser realizada.'
         );
       }
     }
@@ -77,8 +77,4 @@ export class ListProductComponent {
   getEstoqueStatus(estoque: boolean): string {
     return estoque ? 'Sim' : 'Não';
   }
-
-  // cancelEdit(): void {
-  //   this.visible = false;
-  // }
 }

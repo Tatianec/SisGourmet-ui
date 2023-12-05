@@ -7,20 +7,24 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-employee',
   templateUrl: './add-employee.component.html',
-  styleUrls: ['./add-employee.component.css']
+  styleUrls: ['./add-employee.component.css'],
 })
 export class EmployeeRegisterComponent implements OnInit {
   employeeForm!: FormGroup;
   displayDialog = false;
 
-  constructor(private fb: FormBuilder, private employeeService: EmployeeService, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private employeeService: EmployeeService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.employeeForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      manager: [false]
+      manager: [false],
     });
   }
 
@@ -43,7 +47,7 @@ export class EmployeeRegisterComponent implements OnInit {
   }
 
   fecharDialog() {
-    this.displayDialog = false; 
-    this.router.navigate(['/login']); 
+    this.displayDialog = false;
+    this.router.navigate(['/login']);
   }
 }

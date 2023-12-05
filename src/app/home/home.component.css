@@ -2,16 +2,15 @@
   text-align: center;
   margin-top: 5vh;
   margin-bottom: 10vh;
-  transition: transform 0.3s ease; /* Adiciona uma transição de animação */
-
+  transition: transform 0.3s ease;
 
   &:hover {
-    transform: scale(1.2); /* Aumenta o tamanho em hover */
+    transform: scale(1.2);
   }
 }
 
 .logo-text {
-  font-size: 36px; /* Tamanho de fonte maior */
+  font-size: 36px;
   color: rgb(78, 78, 78);
   text-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }

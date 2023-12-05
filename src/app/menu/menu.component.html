@@ -1,41 +1,49 @@
-<div class="center-card">
-  <p-sidebar [(visible)]="sidebarVisible" p-sidebar-left>
-    <h3>Menu</h3>
-    <ul class="custom-menu">
-      <li>
-        <a routerLink="/home" class="menu-item">
-          <i class="pi pi-home menu-icon"></i> Tela Inicial
-        </a>
-      </li>
-      <li>
-        <a routerLink="/orders" class="menu-item">
-          <i class="pi pi-shopping-cart menu-icon"></i> Pedidos
-        </a>
-      </li>
-      <li>
-        <a routerLink="/product" class="menu-item">
-          <i class="pi pi-box menu-icon"></i> Produtos
-        </a>
-      </li>
-      <li>
-        <a routerLink="/desk" class="menu-item">
-          <i class="pi pi-table menu-icon"></i> Mesas
-        </a>
-      </li>
-      <li>
-        <a routerLink="/employee" class="menu-item">
-          <i class="pi pi-chart-bar menu-icon"></i> Funcionários
-        </a>
-      </li>
-      <li>
-        <a routerLink="/login" (click)="logout()" class="menu-item logout-button">
-          <i class="pi pi-power-off menu-icon"></i> Logout
-        </a>
-      </li>
-    </ul>
-  </p-sidebar>
-  <p-button (click)="sidebarVisible = true" icon="pi pi-arrow-right"></p-button>
-</div>
-<div *ngIf="mensagemSucesso" class="alert alert-success">
-  {{ mensagemSucesso }}
+<div class="menu">
+  <div class="center-card">
+    <p-sidebar [(visible)]="sidebarVisible" p-sidebar-left>
+      <h3>Menu</h3>
+      <ul class="custom-menu">
+        <li>
+          <a (click)="onMenuItemClick('/home')" class="menu-item"></a>
+          <a routerLink="/home" class="menu-item">
+            <i class="pi pi-home menu-icon"></i> Tela Inicial
+          </a>
+        </li>
+        <li>
+          <a (click)="onMenuItemClick('/orders')" class="menu-item"></a>
+          <a routerLink="/orders" class="menu-item">
+            <i class="pi pi-shopping-cart menu-icon"></i> Pedidos
+          </a>
+        </li>
+        <li>
+          <a (click)="onMenuItemClick('/product')" class="menu-item"></a>
+          <a routerLink="/product" class="menu-item">
+            <i class="pi pi-box menu-icon"></i> Produtos
+          </a>
+        </li>
+        <li>
+          <a (click)="onMenuItemClick('/desk')" class="menu-item"></a>
+          <a routerLink="/desk" class="menu-item">
+            <i class="pi pi-table menu-icon"></i> Mesas
+          </a>
+        </li>
+        <li>
+          <a (click)="onMenuItemClick('/employee')" class="menu-item"></a>
+          <a routerLink="/employee" class="menu-item">
+            <i class="pi pi-chart-bar menu-icon"></i> Funcionários
+          </a>
+        </li>
+        <li>
+          <a (click)="onMenuItemClick('/login')" class="menu-item"></a>
+          <a routerLink="/login" (click)="logout()" class="menu-item logout-button">
+            <i class="pi pi-power-off menu-icon"></i> Logout
+          </a>
+        </li>
+      </ul>
+    </p-sidebar>
+    <p-button (click)="sidebarVisible = true" icon="pi pi-arrow-right"></p-button>
+  </div>
+  <div *ngIf="mensagemSucesso" class="alert alert-success">
+    {{ mensagemSucesso }}
+  </div>
 </div>

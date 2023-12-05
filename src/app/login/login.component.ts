@@ -51,12 +51,12 @@ export class LoginComponent implements OnInit {
   private handleLoginSuccess(response: any) {
     if (response && response.success) {
       console.log(response);
-      console.log("response");
+      console.log('response');
       console.log(response.data);
 
       this.authService.setLoggedInUserId(response.id);
-      const loggedInUserId = this.authService.getUserId(); 
-      console.log("Usuário logado com ID:", loggedInUserId);
+      const loggedInUserId = this.authService.getUserId();
+      console.log('Usuário logado com ID:', loggedInUserId);
       this.router.navigate(['/home']);
     } else {
       this.handleLoginError(response);
@@ -72,7 +72,4 @@ export class LoginComponent implements OnInit {
       },
     ];
   }
-
-
-
 }

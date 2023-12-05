@@ -25,6 +25,8 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
 export class AddPedidoComponent implements OnInit {
   @Output() pedidoAdded = new EventEmitter<void>();
 
+
+
   employees: Employee[] = [];
   desks: Desk[] = [];
   products: Product[] = [];
@@ -46,7 +48,7 @@ export class AddPedidoComponent implements OnInit {
     this.loadEmployees();
     this.loadDesks();
     this.loadProducts();
-  
+
     this.pedidoForm
       .get('productId')
       ?.valueChanges.pipe(
@@ -60,12 +62,14 @@ export class AddPedidoComponent implements OnInit {
         (selectedProduct: Product | undefined) => {
           if (selectedProduct) {
             this.pedidoForm.patchValue({ productTotal: selectedProduct.total });
-            
+
             const availableQuantity = selectedProduct.qtd_items;
             const requestedQuantity = this.pedidoForm.get('quantity')?.value;
-  
+
             if (requestedQuantity > availableQuantity) {
-              alert('Quantidade solicitada maior do que disponível em estoque.');
+              alert(
+                'Quantidade solicitada maior do que disponível em estoque.'
+              );
             }
           }
         },
@@ -74,7 +78,6 @@ export class AddPedidoComponent implements OnInit {
         }
       );
   }
-  
 
   initializeForm(): void {
     const defaultEmployeeId =
@@ -141,7 +144,7 @@ export class AddPedidoComponent implements OnInit {
   onSubmit(): void {
     if (this.pedidoForm.valid) {
       const productIds = this.pedidoForm.get('productIds') as FormArray;
-  
+
       this.produtosTemporarios.forEach((produtoTemporario) => {
         productIds.push(
           this.fb.group({
@@ -151,21 +154,20 @@ export class AddPedidoComponent implements OnInit {
           })
         );
       });
-  
+
       const { productId, productTotal, quantity, ...newPedidoWithoutProducts } =
         this.pedidoForm.value;
-  
+
       const newPedido: Pedido = {
         ...newPedidoWithoutProducts,
-        // date: this.formatDate(this.pedidoForm.value.date),
       };
-  
+
       this.pedidoService.addPedido(newPedido).subscribe((response) => {
         const pedidoId = response.id;
-  
+
         if (pedidoId !== undefined) {
           this.addProductsToPedido(pedidoId, productIds);
-  
+
           console.log('Pedido adicionado com sucesso!', response);
           this.pedidoAdded.emit();
           this.limparProdutosTemporarios();
@@ -181,6 +183,70 @@ export class AddPedidoComponent implements OnInit {
     }
   }
 
+  addProductsToPedido(pedidoId: number, productIds: FormArray): void {
+    productIds.controls.forEach(
+      (
+        productControl: AbstractControl,
+        index: number,
+        array: AbstractControl[]
+      ) => {
+        if (productControl instanceof FormGroup) {
+          const productId = productControl.get('productId')?.value;
+          const quantity = productControl.get('quantity')?.value;
+
+          if (productId !== undefined && quantity !== undefined) {
+            const pedidoProduct = {
+              id_pedido: {
+                id: pedidoId,
+              },
+              id_product: {
+                id: productId,
+              },
+              qtd_sold: quantity,
+            };
+
+            this.pedidoProductService
+              .createPedidoProduct(pedidoProduct)
+              .subscribe(
+                (response) => {
+                  console.log(
+                    'Produto adicionado ao pedido com sucesso!',
+                    response
+                  );
+
+                  this.productService
+                    .updateProductQuantity(productId, quantity)
+                    .subscribe(
+                      () => {
+                        console.log(
+                          'Quantidade de itens do produto atualizada com sucesso.'
+                        );
+                      },
+                      (error) => {
+                        console.error(
+                          'Erro ao atualizar quantidade de itens do produto:',
+                          error
+                        );
+                        alert(
+                          'Erro ao atualizar quantidade de itens do produto. Por favor, tente novamente.'
+                        );
+                      }
+                    );
+                },
+                (error) => {
+                  console.error('Erro ao adicionar produto ao pedido:', error);
+                  alert(
+                    'Erro ao adicionar produto ao pedido. Por favor, tente novamente.'
+                  );
+                }
+              );
+          }
+        }
+      }
+    );
+    productIds.clear();
+  }
+
   resetForm(): void {
     this.pedidoForm.reset({
       date: new Date().toISOString().split('T')[0],
@@ -192,66 +258,11 @@ export class AddPedidoComponent implements OnInit {
     this.atualizarTotalNoFormulario();
   }
 
-  addProductsToPedido(pedidoId: number, productIds: FormArray): void {
-    productIds.controls.forEach(
-      (
-        productControl: AbstractControl,
-        index: number,
-        array: AbstractControl[]
-      ) => {
-        if (productControl instanceof FormGroup) {
-          const productId = productControl.get('productId')?.value;
-          const quantity = productControl.get('quantity')?.value;
-  
-          if (productId !== undefined && quantity !== undefined) {
-            const pedidoProduct = {
-              id_pedido: {
-                id: pedidoId,
-              },
-              id_product: {
-                id: productId,
-              },
-              qtd_sold: quantity,
-            };
-  
-            this.pedidoProductService
-              .createPedidoProduct(pedidoProduct)
-              .subscribe(
-                (response) => {
-                  console.log(
-                    'Produto adicionado ao pedido com sucesso!',
-                    response
-                  );
-  
-                  this.productService
-                    .updateProductQuantity(productId, quantity)
-                    .subscribe(
-                      () => {
-                        console.log('Quantidade de itens do produto atualizada com sucesso.');
-                      },
-                      (error) => {
-                        console.error('Erro ao atualizar quantidade de itens do produto:', error);
-                        alert('Erro ao atualizar quantidade de itens do produto. Por favor, tente novamente.');
-                      }
-                    );
-                },
-                (error) => {
-                  console.error('Erro ao adicionar produto ao pedido:', error);
-                  alert('Erro ao adicionar produto ao pedido. Por favor, tente novamente.');
-                }
-              );
-          }
-        }
-      }
-    );
-  }
-  
-
   adicionarProduto(): void {
     const productIdControl = this.pedidoForm.get('productId');
     const productTotalControl = this.pedidoForm.get('productTotal');
     const quantityControl = this.pedidoForm.get('quantity');
-  
+
     if (
       productIdControl &&
       productIdControl.value !== null &&
@@ -265,49 +276,49 @@ export class AddPedidoComponent implements OnInit {
         preco: productTotalControl.value,
         quantidade: quantityControl.value,
       };
-  
+
       const productId = parseInt(novoProduto.nome, 10);
       const quantity = novoProduto.quantidade;
-  
+
       this.productService.getProductById(productId).subscribe(
         (selectedProduct: Product | undefined) => {
           if (selectedProduct) {
             if (selectedProduct.estoque) {
               const availableQuantity = selectedProduct.qtd_items;
-  
+
               if (quantity > availableQuantity) {
                 alert('Quantidade indisponível em estoque!');
                 this.pedidoForm.get('quantity')?.setValue(availableQuantity);
               } else {
                 this.produtosTemporarios.push(novoProduto);
-  
+
                 productIdControl.reset();
                 productTotalControl.reset();
                 quantityControl.reset();
-  
+
                 productIdControl.setValue(null);
                 productIdControl.markAsTouched();
-  
+
                 this.updateProductTotal();
-  
+
                 productIdControl.updateValueAndValidity();
-  
+
                 this.atualizarTotalNoFormulario();
               }
             } else {
               this.produtosTemporarios.push(novoProduto);
-  
+
               productIdControl.reset();
               productTotalControl.reset();
               quantityControl.reset();
-  
+
               productIdControl.setValue(null);
               productIdControl.markAsTouched();
-  
+
               this.updateProductTotal();
-  
+
               productIdControl.updateValueAndValidity();
-  
+
               this.atualizarTotalNoFormulario();
             }
           }
@@ -325,13 +336,6 @@ export class AddPedidoComponent implements OnInit {
     this.produtosTemporarios = [];
     this.atualizarTotalNoFormulario();
   }
-
-  // formatDate(date: Date): string {
-  //   console.log(date);
-
-  //   const d = new Date(date);
-  //   return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-  // }
 
   get productIds() {
     return this.pedidoForm.get('productIds');

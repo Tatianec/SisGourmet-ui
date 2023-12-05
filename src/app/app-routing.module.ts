@@ -21,19 +21,19 @@ const routes: Routes = [
   // {path: 'addPedido', component: AddPedidoComponent, canActivate: [AuthGuard]},
   // {path: 'register', component: RegisterComponent}
 
-  {path: '', pathMatch: 'full', redirectTo: 'login'},
-  {path: 'login', component: LoginComponent},
-  {path: 'home', component: HomeComponent},
-  {path: 'employee', component: ListEmployeeComponent},
-  {path: 'product', component: ListProductComponent},
-  {path: 'desk', component: ListDeskComponent},
-  {path: 'orders', component: ListaPedidosComponent},
-  {path: 'addPedido', component: AddPedidoComponent},
-  {path: 'register', component: RegisterComponent}
+  { path: '', pathMatch: 'full', redirectTo: 'login' },
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'employee', component: ListEmployeeComponent },
+  { path: 'product', component: ListProductComponent },
+  { path: 'desk', component: ListDeskComponent },
+  { path: 'orders', component: ListaPedidosComponent },
+  { path: 'addPedido', component: AddPedidoComponent },
+  { path: 'register', component: RegisterComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -19,7 +19,12 @@ export class AuthService {
       })
       .pipe(
         tap((response) => {
-          if (response && response.success && response.data && response.data.id) {
+          if (
+            response &&
+            response.success &&
+            response.data &&
+            response.data.id
+          ) {
             this.setLoggedInUserId(response.data.id);
             console.log('Usuário logado com ID:', response.data.id);
           }
@@ -41,7 +46,9 @@ export class AuthService {
       this.loggedInUserId = id;
       localStorage.setItem('loggedUserId', id.toString());
     } else {
-      console.error('Tentativa de definir ID de usuário como null ou undefined');
+      console.error(
+        'Tentativa de definir ID de usuário como null ou undefined'
+      );
     }
   }
 

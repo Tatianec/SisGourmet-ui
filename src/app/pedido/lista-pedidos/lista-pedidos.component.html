@@ -1,12 +1,13 @@
 <app-menu></app-menu>
 <div class="container-fluid">
   <div class="row">
-    <div class="col-lg-6">
+    <div class="col-6">
+
       <app-add-pedido (pedidoAdded)="onPedidoAdded()"></app-add-pedido>
     </div>
-    <div class="col-lg-6">
+    <div class="col-5">
       <div class="table-container">
-        <h2>Controle de Pedidos</h2>
+        <h2 style="color: white;">Controle de Pedidos</h2>
         <p-table [value]="pedidos" [rows]="10">
           <ng-template pTemplate="header">
             <tr>
@@ -15,7 +16,7 @@
               <th>Mesa</th>
               <th>Total</th>
               <th>Observações</th>
-              <th>Produtos</th> 
+              <th>Produtos</th>
               <th>Status</th>
               <th>Ações</th>
               <th>Finalizar pedido</th>
@@ -30,11 +31,13 @@
               <td>{{ pedido.total }}</td>
               <td>{{ pedido.observation }}</td>
               <td>
+
                 <ul>
                   <li *ngFor="let produto of pedido.products">
                     {{ produto.id_product.name }} ({{ produto.qtd_sold }})
                   </li>
                 </ul>
+
               </td>
               <td>{{ pedido.status }}</td>
               <td>
@@ -45,11 +48,10 @@
               <td>
                 <div *ngIf="pedido.status !== 'Finalizado'">
                   <p-button icon="pi pi-check" class="custom-button" (click)="atualizarStatus(pedido)">
-  
                   </p-button>
                 </div>
-              </td>             
-              
+              </td>
+
             </tr>
           </ng-template>
         </p-table>
